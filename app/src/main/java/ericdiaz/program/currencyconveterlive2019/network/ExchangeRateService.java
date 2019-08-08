@@ -9,6 +9,6 @@ import retrofit2.http.Query;
 public interface ExchangeRateService {
 
     @GET("{date}")
-    Single<ExchangeRateResponse> getExchangeRates(@Path("date")
+    Single<ExchangeRateResponse> getExchangeRates(@Path("date") String date,
                                                   @Query("base") String base);
 }
