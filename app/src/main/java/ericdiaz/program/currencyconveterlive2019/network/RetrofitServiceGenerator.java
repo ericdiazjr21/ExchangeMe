@@ -6,12 +6,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RetrofitServiceGenerator {
 
+    private static final String BASE_URL = "https://api.exchangeratesapi.io";
     private static Retrofit singleInstance;
 
     private static Retrofit getRetrofit() {
         if (singleInstance == null) {
             singleInstance = new Retrofit.Builder()
-              .baseUrl("https://api.exchangeratesapi.io")
+              .baseUrl(BASE_URL)
               .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
               .addConverterFactory(GsonConverterFactory.create())
               .build();
