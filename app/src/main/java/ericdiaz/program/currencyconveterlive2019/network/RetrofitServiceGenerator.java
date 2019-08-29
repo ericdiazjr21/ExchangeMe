@@ -8,6 +8,7 @@ public final class RetrofitServiceGenerator {
 
     private static final String BASE_URL = "https://api.exchangeratesapi.io";
     private static Retrofit singleInstance;
+    private static ExchangeRateService exchangeRateService;
 
     private static Retrofit getRetrofit() {
         if (singleInstance == null) {
@@ -21,7 +22,10 @@ public final class RetrofitServiceGenerator {
     }
 
     public static ExchangeRateService getExchangeRateService() {
-        return getRetrofit().create(ExchangeRateService.class);
+        if (exchangeRateService == null) {
+            exchangeRateService = getRetrofit().create(ExchangeRateService.class);
+        }
+        return exchangeRateService;
     }
 
 }
