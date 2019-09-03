@@ -2,18 +2,20 @@ package ericdiaz.program.currencyconveterlive2019.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateRepository;
+import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
+import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
+import io.reactivex.Single;
 
 public class ExchangeRateViewModel {
 
-    private ExchangeRateRepository exchangeRateRepository;
+    private BaseRepository exchangeRateRepository;
 
-    public ExchangeRateViewModel(@NonNull final ExchangeRateRepository exchangeRateRepository) {
+    public ExchangeRateViewModel(@NonNull final BaseRepository exchangeRateRepository) {
         this.exchangeRateRepository = exchangeRateRepository;
     }
 
-    public void getRates(@NonNull final String data,
-                         @NonNull final String baseCurrency) {
-        exchangeRateRepository.requestExchangeRates(data, baseCurrency);
+    public Single<ExchangeRateResponse> getRates(@NonNull final String data,
+                                                 @NonNull final String baseCurrency) {
+        return exchangeRateRepository.requestExchangeRates(data, baseCurrency);
     }
 }
