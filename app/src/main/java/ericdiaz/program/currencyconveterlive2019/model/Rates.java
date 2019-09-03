@@ -239,4 +239,43 @@ public final class Rates {
     public double getEuro() {
         return euro;
     }
+
+    @Override
+    public String toString() {
+        return "Rates{" +
+          "canadianDollar=" + canadianDollar +
+          ", hongKongDollar=" + hongKongDollar +
+          ", icelandicKróna=" + icelandicKróna +
+          ", philippinePeso=" + philippinePeso +
+          ", danishKrone=" + danishKrone +
+          ", hungarianForint=" + hungarianForint +
+          ", czechKoruna=" + czechKoruna +
+          ", australianDollar=" + australianDollar +
+          ", romanianLeu=" + romanianLeu +
+          ", swedishKrona=" + swedishKrona +
+          ", indonesianRupiah=" + indonesianRupiah +
+          ", indianRupee=" + indianRupee +
+          ", brazilianReal=" + brazilianReal +
+          ", russianRuble=" + russianRuble +
+          ", croatianKuna=" + croatianKuna +
+          ", japaneseYen=" + japaneseYen +
+          ", thaiBaht=" + thaiBaht +
+          ", swissFranc=" + swissFranc +
+          ", singaporeDollar=" + singaporeDollar +
+          ", polandzłoty=" + polandzłoty +
+          ", bulgarianLev=" + bulgarianLev +
+          ", turkishlira=" + turkishlira +
+          ", chineseYuan=" + chineseYuan +
+          ", norwegianKrone=" + norwegianKrone +
+          ", newZealandDollar=" + newZealandDollar +
+          ", southAfricanRand=" + southAfricanRand +
+          ", unitedStatesDollar=" + unitedStatesDollar +
+          ", mexicanPeso=" + mexicanPeso +
+          ", israeliNewShekel=" + israeliNewShekel +
+          ", poundsterling=" + poundsterling +
+          ", southKoreanwon=" + southKoreanwon +
+          ", malaysianRinggit=" + malaysianRinggit +
+          ", euro=" + euro +
+          '}';
+    }
 }

@@ -26,4 +26,13 @@ public final class ExchangeRateResponse {
     public String getDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        return "ExchangeRateResponse{" +
+          "rates=" + rates +
+          ", baseCurrency='" + baseCurrency + '\'' +
+          ", date='" + date + '\'' +
+          '}';
+    }
 }
