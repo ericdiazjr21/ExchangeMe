@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
 import ericdiaz.program.currencyconveterlive2019.network.ExchangeRateService;
-import ericdiaz.program.currencyconveterlive2019.network.RetrofitServiceGenerator;
+import ericdiaz.program.currencyconveterlive2019.network.di.NetworkModule;
 import io.reactivex.observers.TestObserver;
 
 
@@ -15,7 +15,12 @@ public class NetworkTest {
 
     @Before
     public void setUp() {
-        exchangeRateService = RetrofitServiceGenerator.getExchangeRateService();
+        NetworkModule networkModule = new NetworkModule();
+        exchangeRateService =
+          networkModule.providesExchangeRateService(
+            networkModule.providesRetrofit(
+              networkModule.providesOkHttpClient(
+                networkModule.providesHttpLoggingInterceptor())));
     }
 
     @Test
@@ -34,7 +39,7 @@ public class NetworkTest {
     }
 
     @Test
-    public void testExchangeRateServiceWithNullBaseCurrency() {
+    public void testExchangeRateServiceWithNullBaseCurrency() throws InterruptedException {
         //given
         String date = "2010-10-11";
         String nullBaseCurrency = null;
@@ -45,13 +50,14 @@ public class NetworkTest {
 
         //then
         responseTestObserver
+          .await()
           .assertNoErrors()
           .assertValue(response -> response.getDate().equals(date))
           .assertValue(response -> response.getBaseCurrency().equals("EUR"));
     }
 
     @Test
-    public void testExchangeRateServiceWithNullDate() {
+    public void testExchangeRateServiceWithNullDate() throws InterruptedException {
         //given
         String nullDate = null;
         String baseCurrency = "USD";
@@ -62,11 +68,12 @@ public class NetworkTest {
 
         //then
         responseTestObserver
+          .await()
           .assertError(IllegalArgumentException.class);
     }
 
     @Test
-    public void testExchangeRateServiceWithValidInputs() {
+    public void testExchangeRateServiceWithValidInputs() throws InterruptedException {
         //given
         String weekdayDate = "2015-10-12";
         String baseCurrency = "USD";
@@ -77,13 +84,14 @@ public class NetworkTest {
 
         //then
         responseTestObserver
+          .await()
           .assertNoErrors()
           .assertValue(response -> response.getBaseCurrency().equals(baseCurrency))
           .assertValue(response -> response.getDate().equals(weekdayDate));
     }
 
     @Test
-    public void testExchangeRateServiceWithWeekendDate() {
+    public void testExchangeRateServiceWithWeekendDate() throws InterruptedException {
         //given
         String weekendDate = "2015-10-10";
         String expectedShiftedDateResponse = "2015-10-09";
@@ -95,6 +103,7 @@ public class NetworkTest {
 
         //then
         responseTestObserver
+          .await()
           .assertNoErrors()
           .assertValue(response -> response.getBaseCurrency().equals(baseCurrency))
           .assertValue(response -> response.getDate().equals(expectedShiftedDateResponse));

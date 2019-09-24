@@ -1,9 +1,9 @@
 package ericdiaz.program.currencyconveterlive2019.di
 
-import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import ericdiaz.program.currencyconveterlive2019.network.di.NetworkModule
 import ericdiaz.program.currencyconveterlive2019.view.di.MainActivityModule
 import javax.inject.Singleton
 
@@ -14,7 +14,8 @@ of this component.
 @Component(modules = [
     AppModule::class,
     MainActivityModule::class,
-    AndroidInjectionModule::class])
+    AndroidInjectionModule::class,
+    NetworkModule::class])
 @Singleton
 interface AppComponent {
 
