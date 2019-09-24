@@ -1,6 +1,6 @@
 package ericdiaz.program.currencyconveterlive2019.viewmodel;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
