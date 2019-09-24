@@ -8,12 +8,12 @@ import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
 import ericdiaz.program.currencyconveterlive2019.network.ExchangeRateService;
 import io.reactivex.Single;
 
-public class ExchangeRateRepository implements BaseRepository {
+public class ExchangeRateNetworkRepository implements BaseRepository {
 
     private final ExchangeRateService exchangeRateService;
 
     @Inject
-    public ExchangeRateRepository(ExchangeRateService exchangeRateService) {
+    public ExchangeRateNetworkRepository(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
     }
 

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
-import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateRepository;
+import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import io.reactivex.Single;
 
@@ -21,7 +21,7 @@ public class RepositoryTest {
 
     @Before
     public void setUp() {
-        exchangeRateRepository = mock(ExchangeRateRepository.class);
+        exchangeRateRepository = mock(ExchangeRateNetworkRepository.class);
         exchangeRateViewModel = new ExchangeRateViewModel(exchangeRateRepository);
     }
 
