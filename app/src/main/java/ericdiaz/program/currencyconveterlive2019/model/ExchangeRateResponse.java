@@ -8,6 +8,7 @@ public final class ExchangeRateResponse {
     @SerializedName("base")
     private final String baseCurrency;
     private final String date;
+    public static final ExchangeRateResponse EMPTY = new ExchangeRateResponse(null,"ABC","Never");
 
     public ExchangeRateResponse(Rates rates, String baseCurrency, String date) {
         this.rates = rates;
