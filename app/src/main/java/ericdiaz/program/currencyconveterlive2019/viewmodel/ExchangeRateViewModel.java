@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import javax.inject.Inject;
 
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
+import io.reactivex.Completable;
 
 public class ExchangeRateViewModel extends BaseViewModel {
 
@@ -23,6 +24,8 @@ public class ExchangeRateViewModel extends BaseViewModel {
         addDisposables(
           exchangeRateRepository
             .requestExchangeRates(data, baseCurrency)
+            .delaySubscription(
+              Completable.fromAction(() -> exchangeRateData.setValue(State.Loading.INSTANCE)))
             .subscribe(
               exchangeRateResponse -> exchangeRateData.setValue(new State.Success(exchangeRateResponse)),
               throwable -> exchangeRateData.setValue(new State.Failure(throwable))));
