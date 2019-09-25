@@ -1,21 +1,34 @@
 package ericdiaz.program.currencyconveterlive2019.viewmodel;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
+import javax.inject.Inject;
+
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
-import io.reactivex.Single;
 
-public class ExchangeRateViewModel {
+public class ExchangeRateViewModel extends BaseViewModel {
 
-    private BaseRepository exchangeRateRepository;
+    private final MutableLiveData<State> exchangeRateData = new MutableLiveData<>();
+    private final BaseRepository exchangeRateRepository;
 
+    @Inject
     public ExchangeRateViewModel(@NonNull final BaseRepository exchangeRateRepository) {
         this.exchangeRateRepository = exchangeRateRepository;
     }
 
-    public Single<ExchangeRateResponse> getRates(@NonNull final String data,
-                                                 @NonNull final String baseCurrency) {
-        return exchangeRateRepository.requestExchangeRates(data, baseCurrency);
+    public void getRates(@NonNull final String data,
+                         @NonNull final String baseCurrency) {
+        addDisposables(
+          exchangeRateRepository
+            .requestExchangeRates(data, baseCurrency)
+            .subscribe(
+              exchangeRateResponse -> exchangeRateData.setValue(new State.Success(exchangeRateResponse)),
+              throwable -> exchangeRateData.setValue(new State.Failure(throwable))));
+    }
+
+    public LiveData<State> getExchangeRateData() {
+        return exchangeRateData;
     }
 }
