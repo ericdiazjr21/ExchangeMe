@@ -4,14 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
 
 import com.google.common.truth.Truth;
-import com.google.common.truth.TruthFailureSubject;
-import com.google.common.truth.TruthJUnit;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
@@ -19,8 +15,6 @@ import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkR
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 import io.reactivex.Single;
-import kotlin.TuplesKt;
-import retrofit2.HttpException;
 
 import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
@@ -68,8 +62,8 @@ public class ViewModelTest {
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Success.class));
-        verify(mockObserver,times(1)).onChanged(isA(State.Loading.class));
-        verify(mockObserver,times(1)).onChanged(isA(State.Success.class));
+        verify(mockObserver, times(1)).onChanged(isA(State.Loading.class));
+        verify(mockObserver, times(1)).onChanged(isA(State.Success.class));
 
         verifyNoMoreInteractions(mockObserver);
 
@@ -95,8 +89,8 @@ public class ViewModelTest {
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Failure.class));
-        verify(mockObserver,times(1)).onChanged(isA(State.Loading.class));
-        verify(mockObserver,times(1)).onChanged(isA(State.Failure.class));
+        verify(mockObserver, times(1)).onChanged(isA(State.Loading.class));
+        verify(mockObserver, times(1)).onChanged(isA(State.Failure.class));
 
         verifyNoMoreInteractions(mockObserver);
 

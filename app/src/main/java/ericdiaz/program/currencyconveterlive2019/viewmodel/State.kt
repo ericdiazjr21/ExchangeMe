@@ -9,6 +9,4 @@ sealed class State {
     data class Failure(val throwable: Throwable) : State()
 
     object Loading : State()
-
-    object Error:State()
 }
