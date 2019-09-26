@@ -3,8 +3,6 @@ package ericdiaz.program.currencyconveterlive2019;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
 
-import com.google.common.truth.Truth;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,6 +14,7 @@ import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 import io.reactivex.Single;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -58,16 +57,17 @@ public class ViewModelTest {
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
-        Truth.assertThat(result).isEqualTo(new State.Success(ExchangeRateResponse.EMPTY));
+        assertThat(result).isEqualTo(new State.Success(ExchangeRateResponse.EMPTY));
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Success.class));
+
         verify(mockObserver, times(1)).onChanged(isA(State.Loading.class));
         verify(mockObserver, times(1)).onChanged(isA(State.Success.class));
 
-        verifyNoMoreInteractions(mockObserver);
-
         verify(mockObserver, never()).onChanged(isA(State.Failure.class));
+
+        verifyNoMoreInteractions(mockObserver);
     }
 
     @Test
@@ -85,15 +85,16 @@ public class ViewModelTest {
         //then
 
         State result = testSubject.getExchangeRateData().getValue();
-        Truth.assertThat(result).isEqualTo(new State.Failure(expectedException));
+        assertThat(result).isEqualTo(new State.Failure(expectedException));
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Failure.class));
+
         verify(mockObserver, times(1)).onChanged(isA(State.Loading.class));
         verify(mockObserver, times(1)).onChanged(isA(State.Failure.class));
 
-        verifyNoMoreInteractions(mockObserver);
-
         verify(mockObserver, never()).onChanged(isA(State.Success.class));
+
+        verifyNoMoreInteractions(mockObserver);
     }
 }
