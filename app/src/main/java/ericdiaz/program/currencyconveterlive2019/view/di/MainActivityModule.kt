@@ -2,7 +2,7 @@ package ericdiaz.program.currencyconveterlive2019.view.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ericdiaz.program.currencyconveterlive2019.view.MainActivity
+import ericdiaz.program.currencyconveterlive2019.view.ConversionActivity
 
 
 @Module
@@ -13,7 +13,7 @@ abstract class MainActivityModule {
         avoid creating sub components manually
      */
     @ContributesAndroidInjector
-    abstract fun mainActivity(): MainActivity
+    abstract fun mainActivity(): ConversionActivity
 
     @ContributesAndroidInjector
     abstract fun any(): Any
