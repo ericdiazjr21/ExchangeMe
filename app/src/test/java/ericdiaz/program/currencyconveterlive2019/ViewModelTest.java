@@ -52,7 +52,9 @@ public class ViewModelTest {
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.EMPTY);
 
         //when
-        when(mockRepository.requestExchangeRates(date, baseCurrency)).thenReturn(expectedResponse);
+        when(mockRepository.requestExchangeRates(date, baseCurrency))
+          .thenReturn(expectedResponse);
+
         testSubject.getRates(date, baseCurrency);
 
         //then
@@ -79,11 +81,12 @@ public class ViewModelTest {
         Single<ExchangeRateResponse> expectedError = Single.error(expectedException);
 
         //when
-        when(mockRepository.requestExchangeRates(date, baseCurrency)).thenReturn(expectedError);
+        when(mockRepository.requestExchangeRates(date, baseCurrency))
+          .thenReturn(expectedError);
+
         testSubject.getRates(date, baseCurrency);
 
         //then
-
         State result = testSubject.getExchangeRateData().getValue();
         assertThat(result).isEqualTo(new State.Failure(expectedException));
 
