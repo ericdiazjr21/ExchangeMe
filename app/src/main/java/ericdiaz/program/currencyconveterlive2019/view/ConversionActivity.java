@@ -24,18 +24,29 @@ public class ConversionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_conversion);
 
         DialPad dialPad = findViewById(R.id.dial_pad_view);
+        dialPad.setOnDialPressedListener(dial -> Log.d(TAG, "onCreate: " + dial));
 
+        initCurrencySpinners();
+
+    }
+
+    private void initCurrencySpinners() {
         Spinner baseCurrencySpinner = findViewById(R.id.base_currency_spinner);
-        ArrayAdapter<CharSequence> baseCurrencyAdapter = ArrayAdapter
+        Spinner foreignCurrencySpinner = findViewById(R.id.foreign_currency_spinner);
+
+        ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter
           .createFromResource(
             this,
             R.array.currency_list,
             R.layout.support_simple_spinner_dropdown_item);
-        baseCurrencySpinner.setAdapter(baseCurrencyAdapter);
+
+        baseCurrencySpinner.setAdapter(currencyAdapter);
+        foreignCurrencySpinner.setAdapter(currencyAdapter);
+
         baseCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                
+
             }
 
             @Override
@@ -44,6 +55,16 @@ public class ConversionActivity extends AppCompatActivity {
             }
         });
 
-        dialPad.setOnDialPressedListener(dial -> Log.d(TAG, "onCreate: " + dial));
+        foreignCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 }

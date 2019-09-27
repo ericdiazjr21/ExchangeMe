@@ -13,30 +13,19 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:background="@color/transparent_Primary"
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@id/foreign_currency_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/foreign_currency_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="40dp"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@id/center_horizontal_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
-        app:layout_constraintTop_toBottomOf="@id/base_currency_edit_text" />
-
     <Spinner
         android:id="@+id/base_currency_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:spinnerMode="dialog"
         app:layout_constraintBottom_toTopOf="@id/foreign_currency_spinner"
         app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,10 +36,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
+        android:spinnerMode="dialog"
         app:layout_constraintBottom_toTopOf="@id/center_horizontal_guideline"
         app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/base_currency_spinner" />
+
+    <TextView
+        android:id="@+id/foreign_currency_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
+        android:background="@color/transparent_Primary"
+        app:layout_constraintBottom_toTopOf="@id/center_horizontal_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@id/base_currency_edit_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/foreign_currency_spinner"
+        app:layout_constraintEnd_toEndOf="@id/foreign_currency_spinner"
+        app:layout_constraintStart_toStartOf="@id/foreign_currency_spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/base_currency_spinner"
+        app:layout_constraintEnd_toEndOf="@id/base_currency_spinner"
+        app:layout_constraintStart_toStartOf="@id/base_currency_spinner" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dial_pad_container"
@@ -83,6 +104,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".50" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
