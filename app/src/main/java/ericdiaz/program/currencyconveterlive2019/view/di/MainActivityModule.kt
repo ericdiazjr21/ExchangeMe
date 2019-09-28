@@ -7,7 +7,6 @@ import ericdiaz.program.currencyconveterlive2019.view.ConversionActivity
 
 @Module
 abstract class MainActivityModule {
-
     /*
         Will create a sub component for any Android Framework type to
         avoid creating sub components manually
