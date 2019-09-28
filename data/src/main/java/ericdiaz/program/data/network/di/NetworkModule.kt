@@ -1,8 +1,8 @@
-package ericdiaz.program.currencyconveterlive2019.network.di
+package ericdiaz.program.data.network.di
 
 import dagger.Module
 import dagger.Provides
-import ericdiaz.program.currencyconveterlive2019.network.ExchangeRateService
+import ericdiaz.program.data.network.ExchangeRateService
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

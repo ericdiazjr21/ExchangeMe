@@ -3,8 +3,8 @@ package ericdiaz.program.currencyconveterlive2019.di
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
-import ericdiaz.program.currencyconveterlive2019.network.di.NetworkModule
 import ericdiaz.program.currencyconveterlive2019.view.di.MainActivityModule
+import ericdiaz.program.data.network.di.NetworkModule
 import javax.inject.Singleton
 
 /*

@@ -1,9 +1,5 @@
 package ericdiaz.program.currencyconveterlive2019;
 
-import com.google.common.truth.Truth;
-import com.google.common.truth.TruthFailureSubject;
-import com.google.common.truth.TruthJUnit;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
