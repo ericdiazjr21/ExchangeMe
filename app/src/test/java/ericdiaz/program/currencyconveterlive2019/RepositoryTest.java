@@ -11,7 +11,7 @@ import ericdiaz.program.data.model.ExchangeRateResponse;
 import ericdiaz.program.data.network.ExchangeRateService;
 import io.reactivex.Single;
 
-import static com.google.common.truth.Truth.*;
+import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,11 +33,13 @@ public class RepositoryTest {
         //given
         String date = "2000-10-10";
         String baseCurrency = "USD";
-        Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.EMPTY);
+        String foreignCurrency = "EUR";
+        String baseCurrencyAmount = "0.00";
+        Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         //when
         when(serviceMock.getExchangeRates(date, baseCurrency)).thenReturn(expectedResponse);
-        exchangeRateViewModelMock.getRates(date, baseCurrency);
+        exchangeRateViewModelMock.getRates(date, baseCurrency, foreignCurrency, baseCurrencyAmount  );
 
         //then
         assertThat(testSubject.requestExchangeRates(date, baseCurrency)).isEqualTo(expectedResponse);

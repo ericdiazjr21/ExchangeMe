@@ -49,17 +49,19 @@ public class ViewModelTest {
         //given
         String date = "2000-10-10";
         String baseCurrency = "USD";
-        Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.EMPTY);
+        String foreignCurrency = "EUR";
+        String baseCurrencyAmount = "0.00";
+        Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         //when
         when(mockRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedResponse);
 
-        testSubject.getRates(date, baseCurrency);
+        testSubject.getRates(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
-        assertThat(result).isEqualTo(new State.Success(ExchangeRateResponse.EMPTY));
+        assertThat(result).isEqualTo(new State.Success("Error, value is null"));
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Success.class));
@@ -77,6 +79,8 @@ public class ViewModelTest {
         //given
         String date = "2000-10-10";
         String baseCurrency = "USD";
+        String foreignCurrency = "EUR";
+        String baseCurrencyAmount = "0.00";
         Exception expectedException = new IllegalStateException();
         Single<ExchangeRateResponse> expectedError = Single.error(expectedException);
 
@@ -84,7 +88,7 @@ public class ViewModelTest {
         when(mockRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedError);
 
-        testSubject.getRates(date, baseCurrency);
+        testSubject.getRates(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
