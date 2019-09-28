@@ -7,12 +7,18 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.concurrent.Callable;
+
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
 import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 import ericdiaz.program.data.model.ExchangeRateResponse;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.isA;
@@ -34,7 +40,8 @@ public class ViewModelTest {
 
     @Before
     public void setUp() {
-
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> Schedulers.trampoline());
+        RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
         //setup view model with dependencies mocked
         mockRepository = mock(ExchangeRateNetworkRepository.class);
         testSubject = new ExchangeRateViewModel(mockRepository);
