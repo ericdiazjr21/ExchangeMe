@@ -39,7 +39,7 @@ public class RepositoryTest {
 
         //when
         when(serviceMock.getExchangeRates(date, baseCurrency)).thenReturn(expectedResponse);
-        exchangeRateViewModelMock.getRates(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
+        exchangeRateViewModelMock.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
 
         //then
         assertThat(testSubject.requestExchangeRates(date, baseCurrency)).isEqualTo(expectedResponse);

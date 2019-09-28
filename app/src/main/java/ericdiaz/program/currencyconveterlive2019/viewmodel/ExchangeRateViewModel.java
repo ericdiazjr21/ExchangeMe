@@ -7,10 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import javax.inject.Inject;
 
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
-import ericdiaz.program.data.model.ExchangeRateResponse;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 
 public class ExchangeRateViewModel extends BaseViewModel {
 
@@ -22,10 +20,10 @@ public class ExchangeRateViewModel extends BaseViewModel {
         this.exchangeRateRepository = exchangeRateRepository;
     }
 
-    public void getRates(@NonNull final String data,
-                         @NonNull final String baseCurrency,
-                         String foreignCurrency,
-                         String baseCurrencyAmount) {
+    public void getConversionValue(@NonNull final String data,
+                                   @NonNull final String baseCurrency,
+                                   String foreignCurrency,
+                                   String baseCurrencyAmount) {
         addDisposables(
           exchangeRateRepository
             .requestExchangeRates(data, baseCurrency)

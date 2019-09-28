@@ -7,17 +7,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.concurrent.Callable;
-
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
 import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 import ericdiaz.program.data.model.ExchangeRateResponse;
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -40,8 +36,10 @@ public class ViewModelTest {
 
     @Before
     public void setUp() {
+
+        //sets a handler that is allowed to execute rx calls of the main thread.
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> Schedulers.trampoline());
-        RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
+
         //setup view model with dependencies mocked
         mockRepository = mock(ExchangeRateNetworkRepository.class);
         testSubject = new ExchangeRateViewModel(mockRepository);
@@ -64,7 +62,7 @@ public class ViewModelTest {
         when(mockRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedResponse);
 
-        testSubject.getRates(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
+        testSubject.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
@@ -95,7 +93,7 @@ public class ViewModelTest {
         when(mockRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedError);
 
-        testSubject.getRates(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
+        testSubject.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
