@@ -3,9 +3,9 @@ package ericdiaz.program.currencyconveterlive2019;
 import org.junit.Before;
 import org.junit.Test;
 
-import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
-import ericdiaz.program.currencyconveterlive2019.network.ExchangeRateService;
-import ericdiaz.program.currencyconveterlive2019.network.di.NetworkModule;
+import ericdiaz.program.data.model.ExchangeRateResponse;
+import ericdiaz.program.data.network.ExchangeRateService;
+import ericdiaz.program.data.network.di.NetworkModule;
 import io.reactivex.observers.TestObserver;
 
 
