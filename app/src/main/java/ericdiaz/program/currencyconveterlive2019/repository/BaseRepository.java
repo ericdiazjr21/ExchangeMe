@@ -2,7 +2,7 @@ package ericdiaz.program.currencyconveterlive2019.repository;
 
 import androidx.annotation.NonNull;
 
-import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
+import ericdiaz.program.data.model.ExchangeRateResponse;
 import io.reactivex.Single;
 
 public interface BaseRepository {

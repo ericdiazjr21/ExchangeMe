@@ -7,11 +7,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
 import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
+import ericdiaz.program.data.model.ExchangeRateResponse;
 import io.reactivex.Single;
 
 import static com.google.common.truth.Truth.assertThat;

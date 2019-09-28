@@ -1,4 +1,4 @@
-package ericdiaz.program.currencyconveterlive2019.model;
+package ericdiaz.program.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,18 +1,14 @@
 package ericdiaz.program.currencyconveterlive2019;
 
-import com.google.common.truth.Truth;
-import com.google.common.truth.TruthFailureSubject;
-import com.google.common.truth.TruthJUnit;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
-import ericdiaz.program.currencyconveterlive2019.network.ExchangeRateService;
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
 import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
+import ericdiaz.program.data.model.ExchangeRateResponse;
+import ericdiaz.program.data.network.ExchangeRateService;
 import io.reactivex.Single;
 
 import static com.google.common.truth.Truth.*;

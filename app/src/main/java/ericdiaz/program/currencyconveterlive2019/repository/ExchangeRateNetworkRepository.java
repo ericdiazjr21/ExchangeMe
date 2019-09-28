@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
-import ericdiaz.program.currencyconveterlive2019.network.ExchangeRateService;
+import ericdiaz.program.data.model.ExchangeRateResponse;
+import ericdiaz.program.data.network.ExchangeRateService;
 import io.reactivex.Single;
 
 public class ExchangeRateNetworkRepository implements BaseRepository {

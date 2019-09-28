@@ -1,8 +1,8 @@
-package ericdiaz.program.currencyconveterlive2019.network;
+package ericdiaz.program.data.network;
 
 import androidx.annotation.NonNull;
 
-import ericdiaz.program.currencyconveterlive2019.model.ExchangeRateResponse;
+import ericdiaz.program.data.model.ExchangeRateResponse;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
