@@ -13,31 +13,22 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val number1TextView: TextView = findViewById(R.id.number_1_text_view)
-        val number2TextView: TextView = findViewById(R.id.number_2_text_view)
-        val number3TextView: TextView = findViewById(R.id.number_3_text_view)
-        val number4TextView: TextView = findViewById(R.id.number_4_text_view)
-        val number5TextView: TextView = findViewById(R.id.number_5_text_view)
-        val number6TextView: TextView = findViewById(R.id.number_6_text_view)
-        val number7TextView: TextView = findViewById(R.id.number_7_text_view)
-        val number8TextView: TextView = findViewById(R.id.number_8_text_view)
-        val number9TextView: TextView = findViewById(R.id.number_9_text_view)
-        val dotTextView: TextView = findViewById(R.id.dot_text_view)
-        val zeroTextView: TextView = findViewById(R.id.zero_text_view)
-        val deleteImageView: ImageView = findViewById(R.id.delete_image_view)
 
-        number1TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.One) }
-        number2TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Two) }
-        number3TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Three) }
-        number4TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Four) }
-        number5TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Five) }
-        number6TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Six) }
-        number7TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Seven) }
-        number8TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Eight) }
-        number9TextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Nine) }
-        dotTextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Dot) }
-        zeroTextView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Zero) }
-        deleteImageView.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Delete) }
+        findViewById<TextView>(R.id.number_1_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.One) }
+        findViewById<TextView>(R.id.number_2_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Two) }
+        findViewById<TextView>(R.id.number_3_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Three) }
+
+        findViewById<TextView>(R.id.number_4_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Four) }
+        findViewById<TextView>(R.id.number_5_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Five) }
+        findViewById<TextView>(R.id.number_6_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Six) }
+
+        findViewById<TextView>(R.id.number_7_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Seven) }
+        findViewById<TextView>(R.id.number_8_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Eight) }
+        findViewById<TextView>(R.id.number_9_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Nine) }
+
+        findViewById<TextView>(R.id.dot_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Dot) }
+        findViewById<TextView>(R.id.zero_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Zero) }
+        findViewById<ImageView>(R.id.delete_image_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Delete) }
     }
 }
 
