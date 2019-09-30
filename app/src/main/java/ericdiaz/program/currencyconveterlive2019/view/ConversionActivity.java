@@ -1,10 +1,10 @@
 package ericdiaz.program.currencyconveterlive2019.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +24,12 @@ public class ConversionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_conversion);
 
         DialPad dialPad = findViewById(R.id.dial_pad_view);
-        dialPad.setOnDialPressedListener(dial -> Log.d(TAG, "onCreate: " + dial));
+        EditText baseCurrencyAmountEditText = findViewById(R.id.base_currency_amount_edit_text);
+
+        dialPad.setOnDialPressedListener(dial -> {
+            baseCurrencyAmountEditText.append(dial.getDialSymbol());
+        });
+
 
         initCurrencySpinners();
 
