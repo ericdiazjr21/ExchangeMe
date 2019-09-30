@@ -30,6 +30,10 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
         findViewById<TextView>(R.id.zero_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Zero) }
         findViewById<ImageView>(R.id.delete_image_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Delete) }
     }
+
+    fun observe(textView: TextView) {
+        DialPadConductor(this, textView)
+    }
 }
 
 interface OnDialPressedListener {

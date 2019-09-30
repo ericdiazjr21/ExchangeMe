@@ -26,10 +26,7 @@ public class ConversionActivity extends AppCompatActivity {
         DialPad dialPad = findViewById(R.id.dial_pad_view);
         EditText baseCurrencyAmountEditText = findViewById(R.id.base_currency_amount_edit_text);
 
-        dialPad.setOnDialPressedListener(dial -> {
-            baseCurrencyAmountEditText.append(dial.getDialSymbol());
-        });
-
+        dialPad.observe(baseCurrencyAmountEditText);
 
         initCurrencySpinners();
 
