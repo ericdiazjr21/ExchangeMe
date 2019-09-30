@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
 import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
-import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.data.model.ExchangeRateResponse;
 import ericdiaz.program.data.network.ExchangeRateService;
 import io.reactivex.Single;
@@ -18,14 +17,12 @@ import static org.mockito.Mockito.when;
 public class RepositoryTest {
 
     private BaseRepository testSubject;
-    private ExchangeRateViewModel exchangeRateViewModelMock;
     private ExchangeRateService serviceMock;
 
     @Before
     public void setUp() {
         serviceMock = mock(ExchangeRateService.class);
         testSubject = new ExchangeRateNetworkRepository(serviceMock);
-        exchangeRateViewModelMock = mock(ExchangeRateViewModel.class);
     }
 
     @Test
@@ -33,13 +30,11 @@ public class RepositoryTest {
         //given
         String date = "2000-10-10";
         String baseCurrency = "USD";
-        String foreignCurrency = "EUR";
-        String baseCurrencyAmount = "0.00";
+
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         //when
         when(serviceMock.getExchangeRates(date, baseCurrency)).thenReturn(expectedResponse);
-        exchangeRateViewModelMock.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
 
         //then
         assertThat(testSubject.requestExchangeRates(date, baseCurrency)).isEqualTo(expectedResponse);
