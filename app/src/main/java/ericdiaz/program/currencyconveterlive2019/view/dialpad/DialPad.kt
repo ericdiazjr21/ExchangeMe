@@ -3,9 +3,8 @@ package ericdiaz.program.currencyconveterlive2019.view.dialpad
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
-import ericdiaz.program.currencyconveterlive2019.R
+import kotlinx.android.synthetic.main.number_dial_pad.view.*
 
 class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
@@ -13,22 +12,19 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        findViewById<TextView>(R.id.number_1_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.One) }
-        findViewById<TextView>(R.id.number_2_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Two) }
-        findViewById<TextView>(R.id.number_3_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Three) }
-
-        findViewById<TextView>(R.id.number_4_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Four) }
-        findViewById<TextView>(R.id.number_5_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Five) }
-        findViewById<TextView>(R.id.number_6_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Six) }
-
-        findViewById<TextView>(R.id.number_7_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Seven) }
-        findViewById<TextView>(R.id.number_8_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Eight) }
-        findViewById<TextView>(R.id.number_9_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Nine) }
-
-        findViewById<TextView>(R.id.dot_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Dot) }
-        findViewById<TextView>(R.id.zero_text_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Zero) }
-        findViewById<ImageView>(R.id.delete_image_view).setOnClickListener { onDialPressedListener.onDialPressed(Dial.Delete) }
+        
+        number_1_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.One) }
+        number_2_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Two) }
+        number_3_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Three) }
+        number_4_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Four) }
+        number_5_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Five) }
+        number_6_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Six) }
+        number_7_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Seven) }
+        number_8_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Eight) }
+        number_9_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Nine) }
+        dot_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Dot) }
+        zero_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Zero) }
+        delete_image_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Delete) }
     }
 
     fun observe(textView: TextView) {
