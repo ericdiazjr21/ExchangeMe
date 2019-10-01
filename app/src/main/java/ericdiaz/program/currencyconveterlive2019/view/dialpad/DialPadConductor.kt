@@ -10,7 +10,7 @@ class DialPadConductor(private val dialPad: DialPad, private val baseCurrencyAmo
 
     init {
         setDialPadDialPressedListener()
-        baseCurrencyAmountTextView.text = 0.cashAppCurrencyFormat()
+        baseCurrencyAmountTextView.text = zeroAmount()
     }
 
     private fun setDialPadDialPressedListener() {
@@ -33,17 +33,14 @@ class DialPadConductor(private val dialPad: DialPad, private val baseCurrencyAmo
                 if (this != "0") {
                     this.let { it.subSequence(0..it.length - 2).toString() }.toInt().cashAppCurrencyFormat()
                 } else {
-                    0.cashAppCurrencyFormat()
+                    zeroAmount()
                 }
             } else {
-                this.let {
-                    when (it) {
-                        "" -> 0.cashAppCurrencyFormat()
-                        "0" -> it.replace("0", dialSymbol).toInt().cashAppCurrencyFormat()
-                        else -> (it + dialSymbol).toInt().cashAppCurrencyFormat()
-                    }
+                when (this) {
+                    "" -> zeroAmount()
+                    "0" -> this.replace("0", dialSymbol).toInt().cashAppCurrencyFormat()
+                    else -> (this + dialSymbol).toInt().cashAppCurrencyFormat()
                 }
-
             }.let {
                 baseCurrencyAmountTextView.text = it
             }
@@ -51,4 +48,6 @@ class DialPadConductor(private val dialPad: DialPad, private val baseCurrencyAmo
 
 
     }
+
+    private fun zeroAmount() = 0.cashAppCurrencyFormat()
 }
