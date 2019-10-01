@@ -2,6 +2,7 @@ package ericdiaz.program.currencyconveterlive2019.extensions
 
 import java.text.NumberFormat
 
+//TODO : add parsing logic for missing locales.
 private val numberFormatter = (NumberFormat.getCurrencyInstance()).apply { this.isParseIntegerOnly = true }
 
 fun Int.cashAppCurrencyFormat(): String {

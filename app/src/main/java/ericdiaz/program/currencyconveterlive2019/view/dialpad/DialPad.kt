@@ -2,17 +2,20 @@ package ericdiaz.program.currencyconveterlive2019.view.dialpad
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.number_dial_pad.view.*
 
 class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
-    lateinit var onDialPressedListener: OnDialPressedListener
+    private lateinit var onDialPressedListener: OnDialPressedListener
+    private val dialPadConductorMap = mutableMapOf<DialPad, DialPadConductor>()
+    private val resource = resources
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        
+
         number_1_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.One) }
         number_2_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Two) }
         number_3_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Three) }
@@ -27,8 +30,21 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
         delete_image_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Delete) }
     }
 
-    fun observe(textView: TextView) {
-        DialPadConductor(this, textView)
+    fun connectInputTo(receiverTextView: TextView) {
+
+        if (!dialPadConductorMap.containsKey(this@DialPad)) {
+
+            DialPadConductor(receiverTextView).let {
+
+                onDialPressedListener = it
+
+                dialPadConductorMap[this@DialPad] = it
+            }
+        } else {
+            Log.i("DialPad",
+                    "DialPad ${resource.getResourceEntryName(this.id)} " +
+                            "already observing ${resource.getResourceEntryName(receiverTextView.id)}")
+        }
     }
 }
 

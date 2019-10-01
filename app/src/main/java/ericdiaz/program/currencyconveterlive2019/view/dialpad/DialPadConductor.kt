@@ -5,21 +5,15 @@ import android.widget.TextView
 import ericdiaz.program.currencyconveterlive2019.extensions.cashAppCurrencyFormat
 import ericdiaz.program.currencyconveterlive2019.extensions.cashAppCurrencyFormatParser
 
-class DialPadConductor(private val dialPad: DialPad, private val baseCurrencyAmountTextView: TextView) : OnDialPressedListener {
-
+class DialPadConductor(private val receiverTextView: TextView) : OnDialPressedListener {
 
     init {
-        setDialPadDialPressedListener()
-        baseCurrencyAmountTextView.text = zeroAmount()
-    }
-
-    private fun setDialPadDialPressedListener() {
-        dialPad.onDialPressedListener = this
+        receiverTextView.text = zeroAmount()
     }
 
     override fun onDialPressed(dial: Dial) {
 
-        val baseCurrencyAmountText = baseCurrencyAmountTextView.text.toString().trim()
+        val baseCurrencyAmountText = receiverTextView.text.toString().trim()
         val unformattedBaseCurrency = baseCurrencyAmountText.cashAppCurrencyFormatParser()
 
         with(unformattedBaseCurrency) {
@@ -30,7 +24,7 @@ class DialPadConductor(private val dialPad: DialPad, private val baseCurrencyAmo
 
             if (dial is Dial.Delete) {
 
-                if (this != "0") {
+                if (this != "0" && this.length - 1 != 0) {
                     this.subSequence(0..this.length - 2)
                             .toString()
                             .toInt()
@@ -46,16 +40,19 @@ class DialPadConductor(private val dialPad: DialPad, private val baseCurrencyAmo
                             .toInt()
                             .cashAppCurrencyFormat()
 
-                    else -> (this + dialSymbol)
-                            .toInt()
-                            .cashAppCurrencyFormat()
+                    else ->
+                        try {
+                            (this + dialSymbol)
+                                    .toInt()
+                                    .cashAppCurrencyFormat()
+                        } catch (e: NumberFormatException) {
+                            Int.MAX_VALUE.cashAppCurrencyFormat()
+                        }
                 }
             }.let {
-                baseCurrencyAmountTextView.text = it
+                receiverTextView.text = it
             }
         }
-
-
     }
 
     private fun zeroAmount() = 0.cashAppCurrencyFormat()
