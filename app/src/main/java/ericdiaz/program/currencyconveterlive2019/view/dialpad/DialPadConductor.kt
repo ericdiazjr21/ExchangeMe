@@ -31,15 +31,24 @@ class DialPadConductor(private val dialPad: DialPad, private val baseCurrencyAmo
             if (dial is Dial.Delete) {
 
                 if (this != "0") {
-                    this.let { it.subSequence(0..it.length - 2).toString() }.toInt().cashAppCurrencyFormat()
+                    this.subSequence(0..this.length - 2)
+                            .toString()
+                            .toInt()
+                            .cashAppCurrencyFormat()
                 } else {
                     zeroAmount()
                 }
             } else {
                 when (this) {
                     "" -> zeroAmount()
-                    "0" -> this.replace("0", dialSymbol).toInt().cashAppCurrencyFormat()
-                    else -> (this + dialSymbol).toInt().cashAppCurrencyFormat()
+
+                    "0" -> this.replace("0", dialSymbol)
+                            .toInt()
+                            .cashAppCurrencyFormat()
+
+                    else -> (this + dialSymbol)
+                            .toInt()
+                            .cashAppCurrencyFormat()
                 }
             }.let {
                 baseCurrencyAmountTextView.text = it
