@@ -24,7 +24,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
-        android:text="0"
         android:background="@color/transparent_Primary"
         android:inputType="none"
         android:textIsSelectable="true"
