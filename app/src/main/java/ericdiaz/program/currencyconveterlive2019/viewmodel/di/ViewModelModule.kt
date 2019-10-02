@@ -12,7 +12,6 @@ import javax.inject.Singleton
 class ViewModelModule {
 
     @Provides
-    @Singleton
     fun providesExchangeViewModel(conversionActivity: ConversionActivity,
                                   exchangeRateViewModelFactory: ExchangeRateViewModelFactory): ExchangeRateViewModel {
         return ViewModelProviders.of(conversionActivity, exchangeRateViewModelFactory).get(ExchangeRateViewModel::class.java)

@@ -14,13 +14,13 @@ class ExchangeRateViewModel @Inject constructor(private val exchangeRateReposito
 
     private val exchangeRateData = MutableLiveData<State>()
 
-    fun getConversionValue(data: String,
+    fun getConversionValue(date: String = "latest",
                            baseCurrency: String,
                            foreignCurrency: String,
                            baseCurrencyAmount: String) {
         addDisposables(
                 exchangeRateRepository
-                        .requestExchangeRates(data, baseCurrency)
+                        .requestExchangeRates(date, baseCurrency)
                         .delaySubscription(
                                 Completable.fromAction { exchangeRateData.setValue(State.Loading) })
                         .map { (_, ratesMap) ->
