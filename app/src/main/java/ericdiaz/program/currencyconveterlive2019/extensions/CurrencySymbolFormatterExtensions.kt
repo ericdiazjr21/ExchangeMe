@@ -5,11 +5,11 @@ import java.text.NumberFormat
 //TODO : add parsing logic for missing locales.
 private val numberFormatter = (NumberFormat.getCurrencyInstance()).apply { this.isParseIntegerOnly = true }
 
-fun Int.cashAppCurrencyFormat(): String {
+fun Int.currencySymbolFormat(): String {
     return numberFormatter.format(this).replace(Regex("\\.\\d+"), "")
 
 }
 
-fun String.cashAppCurrencyFormatParser(): String {
+fun String.currencySymbolFormatParser(): String {
     return numberFormatter.parse(this).toString()
 }
