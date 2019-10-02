@@ -55,7 +55,8 @@ public class ViewModelTest {
         String date = "2000-10-10";
         String baseCurrency = "USD";
         String foreignCurrency = "EUR";
-        String baseCurrencyAmount = "0.00";
+        String baseCurrencyAmount = "100.00";
+        String expectedConversionValue = "91.44";
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         //when
@@ -66,7 +67,7 @@ public class ViewModelTest {
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
-        assertThat(result).isEqualTo(new State.Success("Error, value is null"));
+        assertThat(result).isEqualTo(new State.Success(expectedConversionValue));
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Success.class));
@@ -108,5 +109,26 @@ public class ViewModelTest {
         verify(mockObserver, never()).onChanged(isA(State.Success.class));
 
         verifyNoMoreInteractions(mockObserver);
+    }
+
+    @Test
+    public void givenValidInputsWhenGetRatesCalledThenLiveDataObserverEmitsSuccessStateUSDtoHUF(){
+        //given
+        String date = "2000-10-10";
+        String baseCurrency = "USD";
+        String foreignCurrency = "HUF";
+        String baseCurrencyAmount = "100.00";
+        String expectedConversionValue = "30684.95";
+        Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
+
+        //when
+        when(mockRepository.requestExchangeRates(date, baseCurrency))
+          .thenReturn(expectedResponse);
+
+        testSubject.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
+
+        //then
+        State result = testSubject.getExchangeRateData().getValue();
+        assertThat(result).isEqualTo(new State.Success(expectedConversionValue));
     }
 }
