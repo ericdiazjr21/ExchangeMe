@@ -5,6 +5,7 @@ import java.text.DecimalFormat
 
 private val basicDecimalFormatDecrease = DecimalFormat("#.##").apply { roundingMode =  RoundingMode.FLOOR }
 private val basicDecimalFormatIncrease = DecimalFormat("#.##")
+
 fun Int.basicDecimalFormat(): String {
     return this.toDouble().toString()
 }
