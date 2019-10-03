@@ -9,9 +9,10 @@ import ericdiaz.program.currencyconveterlive2019.viewmodel.di.ViewModelModule
 @Module
 abstract class ConversionActivityModule {
     /*
-        Will create a sub component for any Android Framework type to
-        avoid creating sub components manually
+        Will create a subComponent for any Android Framework type to
+        avoid creating subComponents manually
      */
+    @ConversionActivityScope
     @ContributesAndroidInjector(modules = [ViewModelModule::class])
     abstract fun conversionActivity(): ConversionActivity
 }

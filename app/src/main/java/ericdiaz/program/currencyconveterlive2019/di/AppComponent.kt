@@ -16,8 +16,7 @@ of this component.
     AppModule::class,
     ConversionActivityModule::class,
     AndroidInjectionModule::class,
-    NetworkModule::class,
-    ViewModelModule::class])
+    NetworkModule::class])
 @Singleton
 interface AppComponent {
 
