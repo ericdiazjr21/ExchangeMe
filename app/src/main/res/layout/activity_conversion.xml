@@ -27,7 +27,7 @@
         android:background="@color/transparent_Primary"
         android:inputType="none"
         android:textIsSelectable="true"
-        app:layout_constraintBottom_toTopOf="@id/foreign_currency_edit_text"
+        app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/base_currency_spinner" />
 
     <TextView
-        android:id="@+id/foreign_currency_edit_text"
+        android:id="@+id/foreign_currency_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
