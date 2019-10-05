@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 
 @Module
@@ -25,8 +26,9 @@ abstract class AppModule {
  *       declares the bound type (just as it would for a {@literal @}{@link dagger.Provides} method)
  *       and the parameter is the type to which it is bound.
      */
-    @Binds
-    abstract fun providesApplication(application: CurrencyConverterApplication): CurrencyConverterApplication
+//    @Singleton
+//    @Binds
+//    abstract fun providesApplication(application: CurrencyConverterApplication): CurrencyConverterApplication
 
 
     //This non-abstract method can coexist within an abstract class.
