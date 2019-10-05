@@ -28,6 +28,9 @@ public class ConversionActivity extends AppCompatActivity {
 
     @Inject
     ExchangeRateViewModel exchangeRateViewModel;
+    @Inject
+    ArrayAdapter<CharSequence> currencyAdapter;
+
     private Button convertButton;
     private EditText baseCurrencyAmountEditText;
     private TextView foreignCurrencyTextView;
@@ -69,6 +72,7 @@ public class ConversionActivity extends AppCompatActivity {
         exchangeRateViewModel.getExchangeRateData().observe(this, new Observer<State>() {
             @Override
             public void onChanged(State state) {
+
                 if (state instanceof State.Success) {
                     foreignCurrencyTextView.setText(((State.Success) state).getConversionValue());
                 } else if (state instanceof State.Failure) {
@@ -82,12 +86,6 @@ public class ConversionActivity extends AppCompatActivity {
     private void initCurrencySpinners() {
         Spinner baseCurrencySpinner = findViewById(R.id.base_currency_spinner);
         Spinner foreignCurrencySpinner = findViewById(R.id.foreign_currency_spinner);
-
-        ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter
-          .createFromResource(
-            this,
-            R.array.currency_list,
-            R.layout.support_simple_spinner_dropdown_item);
 
         baseCurrencySpinner.setAdapter(currencyAdapter);
         foreignCurrencySpinner.setAdapter(currencyAdapter);

@@ -1,6 +1,5 @@
 package ericdiaz.program.currencyconveterlive2019.di
 
-import android.app.Application
 import android.content.Context
 import dagger.Binds
 import dagger.Module
@@ -27,12 +26,12 @@ abstract class AppModule {
  *       and the parameter is the type to which it is bound.
      */
     @Binds
-    abstract fun providesApplication(application: CurrencyConverterApplication):CurrencyConverterApplication
+    abstract fun providesApplication(application: CurrencyConverterApplication): CurrencyConverterApplication
 
 
     //This non-abstract method can coexist within an abstract class.
     @Module
-    companion object{
+    companion object {
 
         @Provides
         @JvmStatic /* *  <- Specifies that an additional static method needs to be generated from this element if it's a function.
