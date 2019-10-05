@@ -1,10 +1,8 @@
 package ericdiaz.program.currencyconveterlive2019.di
 
 import android.content.Context
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 
 @Module

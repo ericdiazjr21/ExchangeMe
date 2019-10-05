@@ -1,6 +1,5 @@
 package ericdiaz.program.currencyconveterlive2019.view.di
 
-import android.content.Context
 import android.widget.ArrayAdapter
 import dagger.Module
 import dagger.Provides
