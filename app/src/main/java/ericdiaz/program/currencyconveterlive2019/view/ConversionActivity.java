@@ -5,13 +5,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,73 +15,46 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import ericdiaz.program.currencyconveterlive2019.R;
-import ericdiaz.program.currencyconveterlive2019.view.dialpad.DialPad;
+import ericdiaz.program.currencyconveterlive2019.databinding.ActivityConversionBinding;
+import ericdiaz.program.currencyconveterlive2019.databinding.NumberDialPadBinding;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 
 public class ConversionActivity extends AppCompatActivity {
 
+    private static final String TAG = "ConversionActivity";
+    private String baseCurrency;
+    private String foreignCurrency;
+    private ActivityConversionBinding activityConversionBinding;
+
     @Inject
     ExchangeRateViewModel exchangeRateViewModel;
     @Inject
     ArrayAdapter<CharSequence> currencyAdapter;
-
-    private Button convertButton;
-    private EditText baseCurrencyAmountEditText;
-    private TextView foreignCurrencyTextView;
-    private String[] currencyList;
-    private String baseCurrency;
-    private String foreignCurrency;
-    private String baseCurrencyTextAmount;
-    private static final String TAG = "ConversionActivity";
+    @Inject
+    String[] currencyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversion);
+        activityConversionBinding = ActivityConversionBinding.inflate(getLayoutInflater());
+        setContentView(activityConversionBinding.getRoot());
 
+        connectDialPad();
         initCurrencySpinners();
+        setConvertButtonListener();
+        observeExchangeRateViewModel();
+    }
 
-        foreignCurrencyTextView = findViewById(R.id.foreign_currency_text_view);
-
-        currencyList = getResources().getStringArray(R.array.currency_list);
-
-        DialPad dialPad = findViewById(R.id.dial_pad_view);
-        baseCurrencyAmountEditText = findViewById(R.id.base_currency_amount_edit_text);
-        dialPad.connectInputTo(baseCurrencyAmountEditText);
-
-
-        convertButton = findViewById(R.id.convert_button);
-        convertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                baseCurrencyTextAmount = baseCurrencyAmountEditText.getText().toString();
-                String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime());
-                Log.d(TAG, "onClick: " + date + baseCurrency + foreignCurrency + baseCurrencyTextAmount);
-                exchangeRateViewModel.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyTextAmount);
-            }
-        });
-
-        exchangeRateViewModel.getExchangeRateData().observe(this, new Observer<State>() {
-            @Override
-            public void onChanged(State state) {
-
-                if (state instanceof State.Success) {
-                    foreignCurrencyTextView.setText(((State.Success) state).getConversionValue());
-                } else if (state instanceof State.Failure) {
-                    Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
-                }
-            }
-        });
-
+    private void connectDialPad() {
+        NumberDialPadBinding.inflate(getLayoutInflater())
+          .dialPadView.connectInputTo(activityConversionBinding.baseCurrencyAmountEditText);
     }
 
     private void initCurrencySpinners() {
-        Spinner baseCurrencySpinner = findViewById(R.id.base_currency_spinner);
-        Spinner foreignCurrencySpinner = findViewById(R.id.foreign_currency_spinner);
+        Spinner baseCurrencySpinner = activityConversionBinding.baseCurrencySpinner;
+        Spinner foreignCurrencySpinner = activityConversionBinding.foreignCurrencySpinner;
 
         baseCurrencySpinner.setAdapter(currencyAdapter);
         foreignCurrencySpinner.setAdapter(currencyAdapter);
@@ -94,7 +63,6 @@ public class ConversionActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 baseCurrency = currencyList[position];
-
             }
 
             @Override
@@ -112,6 +80,27 @@ public class ConversionActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+    }
+
+    private void setConvertButtonListener() {
+        activityConversionBinding.convertButton.setOnClickListener(v ->
+
+          exchangeRateViewModel.getConversionValue(
+            new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime()),
+            baseCurrency,
+            foreignCurrency,
+            activityConversionBinding.baseCurrencyAmountEditText.getText().toString()));
+    }
+
+    private void observeExchangeRateViewModel() {
+        exchangeRateViewModel.getExchangeRateData().observe(this, state -> {
+
+            if (state instanceof State.Success) {
+                activityConversionBinding.foreignCurrencyTextView.setText(((State.Success) state).getConversionValue());
+            } else if (state instanceof State.Failure) {
+                Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             }
         });
     }

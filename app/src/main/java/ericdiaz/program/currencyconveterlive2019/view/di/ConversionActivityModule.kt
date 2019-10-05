@@ -1,12 +1,12 @@
 package ericdiaz.program.currencyconveterlive2019.view.di
 
 import android.content.Context
+import android.content.res.Resources
 import android.widget.ArrayAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import ericdiaz.program.currencyconveterlive2019.R
-import ericdiaz.program.currencyconveterlive2019.di.CurrencyConverterApplication
 import ericdiaz.program.currencyconveterlive2019.view.ConversionActivity
 import ericdiaz.program.currencyconveterlive2019.viewmodel.di.ViewModelModule
 
@@ -26,12 +26,18 @@ abstract class ConversionActivityModule {
 
         @Provides
         @JvmStatic
-        fun providesCurrencyListArray(application: CurrencyConverterApplication): ArrayAdapter<CharSequence> {
+        fun providesCurrencyListArray(context: Context): ArrayAdapter<CharSequence> {
             return ArrayAdapter.createFromResource(
-                    application.applicationContext,
+                    context,
                     R.array.currency_list,
                     R.layout.support_simple_spinner_dropdown_item
             )
+        }
+
+        @Provides
+        @JvmStatic
+        fun providesCurrencyListStringArray(resources: Resources): Array<String> {
+            return resources.getStringArray(R.array.currency_list);
         }
     }
 }

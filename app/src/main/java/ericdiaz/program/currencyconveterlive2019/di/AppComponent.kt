@@ -4,7 +4,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import ericdiaz.program.currencyconveterlive2019.view.di.ConversionActivityModule
-import ericdiaz.program.currencyconveterlive2019.viewmodel.di.ViewModelModule
 import ericdiaz.program.data.network.di.NetworkModule
 import javax.inject.Singleton
 
