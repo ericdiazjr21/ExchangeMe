@@ -1,6 +1,7 @@
 package ericdiaz.program.currencyconveterlive2019.di
 
 import android.content.Context
+import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 
@@ -38,6 +39,12 @@ abstract class AppModule {
                       * If this element is a property, additional static getter/setter methods should be generated. */
         fun providesApplicationContext(application: CurrencyConverterApplication): Context {
             return application.applicationContext
+        }
+
+        @Provides
+        @JvmStatic
+        fun providesResources(context: Context): Resources {
+            return context.resources
         }
     }
 }
