@@ -43,6 +43,15 @@ dependencies {
 
     //For local persistence
     implementation 'com.squareup.sqldelight:android-driver:1.2.0'
+
+    //For Testing
+    testImplementation 'junit:junit:4.12'
+    testImplementation "com.squareup.sqldelight:sqlite-driver:1.2.0"
+    testImplementation "com.google.truth:truth:1.0"
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    kapt 'androidx.test.ext:truth:1.2.0'
 }
 
 if (project.hasProperty('kapt')) {

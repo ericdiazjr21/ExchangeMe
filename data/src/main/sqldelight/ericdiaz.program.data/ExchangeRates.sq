@@ -11,3 +11,10 @@ selectByDate:
 SELECT *
 FROM exchangeRates
 WHERE exchangeRates_date = ?;
+
+insertByDate:
+INSERT INTO exchangeRates(
+exchangeRates_date,
+exchangeRates_map)
+
+VALUES(?,?);
