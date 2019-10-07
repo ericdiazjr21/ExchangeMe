@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.squareup.sqldelight'
 
 android {
     compileSdkVersion 28
@@ -18,8 +19,6 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
-
-
 }
 
 dependencies {
@@ -41,6 +40,9 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.24'
     implementation 'com.google.dagger:dagger-android:2.24'
     kapt 'com.google.dagger:dagger-android-processor:2.24'
+
+    //For local persistence
+    implementation 'com.squareup.sqldelight:android-driver:1.2.0'
 }
 
 if (project.hasProperty('kapt')) {

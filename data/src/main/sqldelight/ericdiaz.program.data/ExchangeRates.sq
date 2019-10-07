@@ -1,0 +1,13 @@
+CREATE TABLE exchangeRates(
+exchangeRates_date TEXT NOT NULL,
+exchangeRates_map BLOB
+);
+
+selectAll:
+SELECT *
+FROM exchangeRates;
+
+selectByDate:
+SELECT *
+FROM exchangeRates
+WHERE exchangeRates_date = ?;
