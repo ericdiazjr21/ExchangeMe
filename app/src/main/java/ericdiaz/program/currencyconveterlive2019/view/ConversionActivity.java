@@ -23,8 +23,6 @@ import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 public class ConversionActivity extends AppCompatActivity {
 
     private static final String TAG = "ConversionActivity";
-    private String baseCurrency;
-    private String foreignCurrency;
     private ActivityConversionBinding activityConversionBinding;
 
     @Inject
@@ -62,7 +60,7 @@ public class ConversionActivity extends AppCompatActivity {
         baseCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                baseCurrency = currencyList[position];
+                exchangeRateViewModel.baseCurrency = currencyList[position];
             }
 
             @Override
@@ -74,7 +72,7 @@ public class ConversionActivity extends AppCompatActivity {
         foreignCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                foreignCurrency = currencyList[position];
+                exchangeRateViewModel.foreignCurrency = currencyList[position];
             }
 
             @Override
@@ -85,13 +83,14 @@ public class ConversionActivity extends AppCompatActivity {
     }
 
     private void setConvertButtonListener() {
-        activityConversionBinding.convertButton.setOnClickListener(v ->
+        activityConversionBinding.convertButton.setOnClickListener(v -> {
 
-          exchangeRateViewModel.getConversionValue(
-            new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime()),
-            baseCurrency,
-            foreignCurrency,
-            activityConversionBinding.baseCurrencyAmountEditText.getText().toString()));
+            exchangeRateViewModel.baseCurrencyAmount =
+              activityConversionBinding.baseCurrencyAmountEditText.getText().toString();
+
+            exchangeRateViewModel.getConversionValue(
+              new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime()));
+        });
     }
 
     private void observeExchangeRateViewModel() {
