@@ -15,8 +15,9 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import ericdiaz.program.currencyconveterlive2019.R;
 import ericdiaz.program.currencyconveterlive2019.databinding.ActivityConversionBinding;
-import ericdiaz.program.currencyconveterlive2019.databinding.NumberDialPadBinding;
+import ericdiaz.program.currencyconveterlive2019.view.dialpad.DialPad;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 
@@ -46,8 +47,9 @@ public class ConversionActivity extends AppCompatActivity {
     }
 
     private void connectDialPad() {
-        NumberDialPadBinding.inflate(getLayoutInflater())
-          .dialPadView.connectInputTo(activityConversionBinding.baseCurrencyAmountEditText);
+        DialPad dialPad = findViewById(R.id.dial_pad_view);
+
+        dialPad.connectInputTo(activityConversionBinding.baseCurrencyAmountEditText);
     }
 
     private void initCurrencySpinners() {

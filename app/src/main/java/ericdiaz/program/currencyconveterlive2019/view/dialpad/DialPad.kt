@@ -11,7 +11,6 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
 
     private lateinit var onDialPressedListener: OnDialPressedListener
     private val dialPadConductorMap = mutableMapOf<DialPad, DialPadConductor>()
-    private val resource = resources
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -42,8 +41,8 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
             }
         } else {
             Log.i("DialPad",
-                    "DialPad ${resource.getResourceEntryName(this.id)} " +
-                            "already observing ${resource.getResourceEntryName(receiverTextView.id)}")
+                    "DialPad ${resources.getResourceEntryName(this.id)} " +
+                            "already observing ${resources.getResourceEntryName(receiverTextView.id)}")
         }
     }
 }
