@@ -59,11 +59,14 @@ public class ViewModelTest {
         String expectedConversionValue = "91.44";
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
+        testSubject.baseCurrency = baseCurrency;
+        testSubject.foreignCurrency = foreignCurrency;
+        testSubject.baseCurrencyAmount = baseCurrencyAmount;
         //when
         when(mockRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedResponse);
 
-        testSubject.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
+        testSubject.getConversionValue(date);
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
@@ -90,11 +93,15 @@ public class ViewModelTest {
         Exception expectedException = new IllegalStateException();
         Single<ExchangeRateResponse> expectedError = Single.error(expectedException);
 
+        testSubject.baseCurrency = baseCurrency;
+        testSubject.foreignCurrency = foreignCurrency;
+        testSubject.baseCurrencyAmount = baseCurrencyAmount;
+
         //when
         when(mockRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedError);
 
-        testSubject.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
+        testSubject.getConversionValue(date);
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
@@ -112,7 +119,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void givenValidInputsWhenGetRatesCalledThenLiveDataObserverEmitsSuccessStateUSDtoHUF(){
+    public void givenValidInputsWhenGetRatesCalledThenLiveDataObserverEmitsSuccessStateUSDtoHUF() {
         //given
         String date = "2000-10-10";
         String baseCurrency = "USD";
@@ -121,11 +128,14 @@ public class ViewModelTest {
         String expectedConversionValue = "30684.95";
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
+        testSubject.baseCurrency = baseCurrency;
+        testSubject.foreignCurrency = foreignCurrency;
+        testSubject.baseCurrencyAmount = baseCurrencyAmount;
         //when
         when(mockRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedResponse);
 
-        testSubject.getConversionValue(date, baseCurrency, foreignCurrency, baseCurrencyAmount);
+        testSubject.getConversionValue(date);
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
