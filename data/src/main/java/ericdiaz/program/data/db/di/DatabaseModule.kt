@@ -5,7 +5,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
 import ericdiaz.program.data.Database
@@ -21,10 +20,15 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesExchangeRateDatabase(context: Context,
+    fun providesExchangeRateDatabase(androidSQLiteDriver: AndroidSqliteDriver,
                                      exchangeRateDatabaseAdapter: ExchangeRates.Adapter): Database {
-        val driver: SqlDriver = AndroidSqliteDriver(Database.Schema, context, DATA_BASE_NAME)
-        return Database(driver, exchangeRateDatabaseAdapter)
+        return Database(androidSQLiteDriver, exchangeRateDatabaseAdapter)
+    }
+
+    @Provides
+    @Singleton
+    fun providesAndroidSqlDriver(context: Context): AndroidSqliteDriver {
+        return AndroidSqliteDriver(Database.Schema, context, DATA_BASE_NAME)
     }
 
     @Provides
@@ -37,15 +41,21 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesColumnAdapter(): ColumnAdapter<Map<String, Double>, String> {
+    fun providesColumnAdapter(gson: Gson): ColumnAdapter<Map<String, Double>, String> {
         return object : ColumnAdapter<Map<String, Double>, String> {
             override fun decode(databaseValue: String): Map<String, Double> {
-                return Gson().fromJson(databaseValue, object : TypeToken<Map<String, Double>>() {}.type)
+                return gson.fromJson(databaseValue, object : TypeToken<Map<String, Double>>() {}.type)
             }
 
             override fun encode(value: Map<String, Double>): String {
-                return Gson().toJson(value)
+                return gson.toJson(value)
             }
         }
+    }
+
+    @Provides
+    @Singleton
+    fun providesGson(): Gson {
+        return Gson()
     }
 }

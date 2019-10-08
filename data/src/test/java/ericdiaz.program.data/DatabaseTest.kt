@@ -33,14 +33,55 @@ class DatabaseTest {
         val mockResponse = ExchangeRateResponse.EMPTY
 
         //when
-        queries.insertByDate(
+        queries.insertExchangeRates(
                 mockResponse.date,
                 mockResponse.ratesMap,
                 mockResponse.baseCurrency)
 
         //then
-        val result = queries.selectByDate(ExchangeRateResponse.EMPTY.date).executeAsOne()
+        val result = queries.selectByDateAndBaseCurrency(
+                ExchangeRateResponse.EMPTY.date,
+                ExchangeRateResponse.EMPTY.baseCurrency)
+                .executeAsOne()
+
         assertThat(result.exchangeRates_map).isEqualTo(mockResponse.ratesMap)
+    }
+
+    @Test
+    fun testDatabaseWillReplaceOldRowWithRow() {
+        // Given
+        val mockResponse = ExchangeRateResponse.EMPTY
+        val expectedEmptyMap = emptyMap<String, Double>()
+
+        // When
+        queries.insertExchangeRates(
+                mockResponse.date,
+                mockResponse.ratesMap,
+                mockResponse.baseCurrency)
+
+        val firstInsertResult = queries.selectByDateAndBaseCurrency(
+                ExchangeRateResponse.EMPTY.date,
+                ExchangeRateResponse.EMPTY.baseCurrency)
+                .executeAsOne()
+
+        // Then
+        assertThat(firstInsertResult.exchangeRates_map).isEqualTo(mockResponse.ratesMap)
+        assertThat(firstInsertResult.exchangeRates_baseCurrency).isEqualTo(mockResponse.baseCurrency)
+        assertThat(firstInsertResult.exchangeRates_date).isEqualTo(mockResponse.date)
+
+        //And Then Do
+        queries.insertExchangeRates(
+                mockResponse.date,
+                expectedEmptyMap,
+                mockResponse.baseCurrency)
+
+        val secondInsertResult = queries.selectByDateAndBaseCurrency(
+                ExchangeRateResponse.EMPTY.date,
+                ExchangeRateResponse.EMPTY.baseCurrency)
+                .executeAsOne()
+
+        //And Then Assert
+        assertThat(secondInsertResult.exchangeRates_map).isEqualTo(expectedEmptyMap)
     }
 }
 
