@@ -17,7 +17,28 @@ class DatabaseModule {
 
     companion object {
         private const val DATA_BASE_NAME = "exchange_rates.db"
-        private val mapOfStringAdapter = object : ColumnAdapter<Map<String, Double>, String> {
+    }
+
+    @Provides
+    @Singleton
+    fun providesExchangeRateDatabase(context: Context,
+                                     exchangeRateDatabaseAdapter: ExchangeRates.Adapter): Database {
+        val driver: SqlDriver = AndroidSqliteDriver(Database.Schema, context, DATA_BASE_NAME)
+        return Database(driver, exchangeRateDatabaseAdapter)
+    }
+
+    @Provides
+    @Singleton
+    fun providesExchangeRateDatabaseAdapter(
+            columnAdapter: ColumnAdapter<Map<String, Double>, String>
+    ): ExchangeRates.Adapter {
+        return ExchangeRates.Adapter(columnAdapter)
+    }
+
+    @Provides
+    @Singleton
+    fun providesColumnAdapter(): ColumnAdapter<Map<String, Double>, String> {
+        return object : ColumnAdapter<Map<String, Double>, String> {
             override fun decode(databaseValue: String): Map<String, Double> {
                 return Gson().fromJson(databaseValue, object : TypeToken<Map<String, Double>>() {}.type)
             }
@@ -26,13 +47,5 @@ class DatabaseModule {
                 return Gson().toJson(value)
             }
         }
-        val exchangeRateDatabaseAdapter = ExchangeRates.Adapter(mapOfStringAdapter)
-    }
-
-    @Provides
-    @Singleton
-    fun providesExchangeRateDatabase(context: Context): Database {
-        val driver: SqlDriver = AndroidSqliteDriver(Database.Schema, context, DATA_BASE_NAME)
-        return Database(driver, exchangeRateDatabaseAdapter)
     }
 }
