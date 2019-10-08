@@ -6,10 +6,9 @@ data class ExchangeRateResponse(@SerializedName("base")
                                 val baseCurrency: String,
                                 @SerializedName("rates")
                                 val ratesMap: Map<String, Double>,
-
                                 val date: String) {
     companion object {
-        val DUMMY_RATES = mutableMapOf<String, Double>().apply {
+        private val DUMMY_RATES = mutableMapOf<String, Double>().apply {
             put("CAD", 1.3253772291)
             put("HKD", 7.8396890718)
             put("ISK", 123.3653406493)

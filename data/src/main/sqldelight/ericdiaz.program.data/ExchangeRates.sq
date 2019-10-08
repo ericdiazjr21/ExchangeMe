@@ -1,20 +1,25 @@
+import kotlin.collections.Map;
+
 CREATE TABLE exchangeRates(
 exchangeRates_date TEXT NOT NULL,
-exchangeRates_map BLOB
+exchangeRates_map TEXT AS Map<String,Double> NOT NULL,
+exchangeRates_baseCurrency TEXT NOT NULL PRIMARY KEY
 );
 
 selectAll:
 SELECT *
 FROM exchangeRates;
 
-selectByDate:
+selectByDateAndBaseCurrency:
 SELECT *
 FROM exchangeRates
-WHERE exchangeRates_date = ?;
+WHERE exchangeRates_date = ? AND exchangeRates_baseCurrency = ?;
 
-insertByDate:
-INSERT INTO exchangeRates(
+insertExchangeRates:
+INSERT OR REPLACE INTO exchangeRates(
 exchangeRates_date,
-exchangeRates_map)
+exchangeRates_map,
+exchangeRates_baseCurrency)
 
-VALUES(?,?);
+VALUES(?,?,?);
+

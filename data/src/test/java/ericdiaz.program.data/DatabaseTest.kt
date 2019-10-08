@@ -1,6 +1,9 @@
 package ericdiaz.program.data
 
 import com.google.common.truth.Truth.assertThat
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver.Companion.IN_MEMORY
 import ericdiaz.program.data.model.ExchangeRateResponse
@@ -11,22 +14,74 @@ class DatabaseTest {
         Database.Schema.create(this)
     }
 
-    private val queries = Database(inMemorySqlDriver).exchangeRatesQueries
+    private val exchangeRateAdapter = ExchangeRates.Adapter(object : ColumnAdapter<Map<String, Double>, String> {
+        override fun encode(value: Map<String, Double>): String {
+            return Gson().toJson(value)
+        }
+
+        override fun decode(databaseValue: String): Map<String, Double> {
+            return Gson().fromJson(databaseValue, object : TypeToken<Map<String, Double>>() {}.type)
+        }
+    })
+
+
+    private val queries = Database(inMemorySqlDriver, exchangeRateAdapter).exchangeRatesQueries
 
     @Test
     fun addDummyDataToDB() {
         // given
-        val exchangeRateMapByteArray = ExchangeRateResponse.EMPTY.ratesMap.toString().toByteArray()
+        val mockResponse = ExchangeRateResponse.EMPTY
 
         //when
-        queries.insertByDate(ExchangeRateResponse.EMPTY.date, exchangeRateMapByteArray)
+        queries.insertExchangeRates(
+                mockResponse.date,
+                mockResponse.ratesMap,
+                mockResponse.baseCurrency)
 
         //then
+        val result = queries.selectByDateAndBaseCurrency(
+                ExchangeRateResponse.EMPTY.date,
+                ExchangeRateResponse.EMPTY.baseCurrency)
+                .executeAsOne()
 
-        val result = queries.selectByDate(ExchangeRateResponse.EMPTY.date).executeAsList()
+        assertThat(result.exchangeRates_map).isEqualTo(mockResponse.ratesMap)
+    }
 
-        assertThat(result.size).isEqualTo(1)
-        assertThat(result[0].exchangeRates_map).isEqualTo(exchangeRateMapByteArray)
+    @Test
+    fun testDatabaseWillReplaceOldRowWithRow() {
+        // Given
+        val mockResponse = ExchangeRateResponse.EMPTY
+        val expectedEmptyMap = emptyMap<String, Double>()
+
+        // When
+        queries.insertExchangeRates(
+                mockResponse.date,
+                mockResponse.ratesMap,
+                mockResponse.baseCurrency)
+
+        val firstInsertResult = queries.selectByDateAndBaseCurrency(
+                ExchangeRateResponse.EMPTY.date,
+                ExchangeRateResponse.EMPTY.baseCurrency)
+                .executeAsOne()
+
+        // Then
+        assertThat(firstInsertResult.exchangeRates_map).isEqualTo(mockResponse.ratesMap)
+        assertThat(firstInsertResult.exchangeRates_baseCurrency).isEqualTo(mockResponse.baseCurrency)
+        assertThat(firstInsertResult.exchangeRates_date).isEqualTo(mockResponse.date)
+
+        //And Then Do
+        queries.insertExchangeRates(
+                mockResponse.date,
+                expectedEmptyMap,
+                mockResponse.baseCurrency)
+
+        val secondInsertResult = queries.selectByDateAndBaseCurrency(
+                ExchangeRateResponse.EMPTY.date,
+                ExchangeRateResponse.EMPTY.baseCurrency)
+                .executeAsOne()
+
+        //And Then Assert
+        assertThat(secondInsertResult.exchangeRates_map).isEqualTo(expectedEmptyMap)
     }
 }
 
