@@ -5,6 +5,7 @@ import ericdiaz.program.data.db.ExchangeRateDatabase
 import ericdiaz.program.data.model.ExchangeRateResponse
 import javax.inject.Inject
 
+//TODO: address threading in these function
 class ExchangeRateRepository @Inject constructor(exchangeRateDatabase: ExchangeRateDatabase) : BaseRepository {
 
     private val exchangeRatesDatabaseQueries: ExchangeRatesQueries = exchangeRateDatabase.exchangeRatesQueries
