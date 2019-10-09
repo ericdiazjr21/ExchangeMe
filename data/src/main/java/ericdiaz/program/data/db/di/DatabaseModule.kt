@@ -7,8 +7,8 @@ import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Module
 import dagger.Provides
-import ericdiaz.program.data.Database
 import ericdiaz.program.data.ExchangeRates
+import ericdiaz.program.data.db.ExchangeRateDatabase
 import javax.inject.Singleton
 
 @Module
@@ -21,14 +21,14 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun providesExchangeRateDatabase(androidSQLiteDriver: AndroidSqliteDriver,
-                                     exchangeRateDatabaseAdapter: ExchangeRates.Adapter): Database {
-        return Database(androidSQLiteDriver, exchangeRateDatabaseAdapter)
+                                     exchangeRateDatabaseAdapter: ExchangeRates.Adapter): ExchangeRateDatabase {
+        return ExchangeRateDatabase(androidSQLiteDriver, exchangeRateDatabaseAdapter)
     }
 
     @Provides
     @Singleton
     fun providesAndroidSqlDriver(context: Context): AndroidSqliteDriver {
-        return AndroidSqliteDriver(Database.Schema, context, DATA_BASE_NAME)
+        return AndroidSqliteDriver(ExchangeRateDatabase.Schema, context, DATA_BASE_NAME)
     }
 
     @Provides
