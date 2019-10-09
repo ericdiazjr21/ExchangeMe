@@ -6,12 +6,13 @@ import com.google.gson.reflect.TypeToken
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver.Companion.IN_MEMORY
+import ericdiaz.program.data.db.ExchangeRateDatabase
 import ericdiaz.program.data.model.ExchangeRateResponse
 import org.junit.Test
 
 class DatabaseTest {
     private val inMemorySqlDriver = JdbcSqliteDriver(IN_MEMORY).apply {
-        Database.Schema.create(this)
+        ExchangeRateDatabase.Schema.create(this)
     }
 
     private val exchangeRateAdapter = ExchangeRates.Adapter(object : ColumnAdapter<Map<String, Double>, String> {
@@ -25,10 +26,10 @@ class DatabaseTest {
     })
 
 
-    private val queries = Database(inMemorySqlDriver, exchangeRateAdapter).exchangeRatesQueries
+    private val queries = ExchangeRateDatabase(inMemorySqlDriver, exchangeRateAdapter).exchangeRatesQueries
 
     @Test
-    fun addDummyDataToDB() {
+    fun `Given a mock response, when mock is inserted and then retrieved, then assert retrieved result is equal to inserted`() {
         // given
         val mockResponse = ExchangeRateResponse.EMPTY
 
@@ -48,7 +49,7 @@ class DatabaseTest {
     }
 
     @Test
-    fun testDatabaseWillReplaceOldRowWithRow() {
+    fun `Given a mock response, when mock is inserted and then retrieved, then assert retrieved result is equal to inserted, then do a insertion and retrieval of a mock response with an empty map, then assert that when performing the same retrieval, the new mock is returned with the empty map`() {
         // Given
         val mockResponse = ExchangeRateResponse.EMPTY
         val expectedEmptyMap = emptyMap<String, Double>()
