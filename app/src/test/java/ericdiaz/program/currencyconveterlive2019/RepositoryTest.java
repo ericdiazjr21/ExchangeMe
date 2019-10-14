@@ -4,8 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
-import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
+import ericdiaz.program.data.repository.BaseRepository;
+import ericdiaz.program.data.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.data.model.ExchangeRateResponse;
 import ericdiaz.program.data.network.ExchangeRateService;
 import io.reactivex.Single;

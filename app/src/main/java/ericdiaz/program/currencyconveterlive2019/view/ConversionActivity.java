@@ -14,12 +14,14 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import ericdiaz.program.currencyconveterlive2019.R;
 import ericdiaz.program.currencyconveterlive2019.databinding.ActivityConversionBinding;
+import ericdiaz.program.currencyconveterlive2019.di.DaggerConversionActivityComponent;
 import ericdiaz.program.currencyconveterlive2019.view.dialpad.DialPad;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
+import ericdiaz.program.currencyconveterlive2019.viewmodel.di.ViewModelModule;
+import ericdiaz.program.data.di.CurrencyConverterApplication;
 
 public class ConversionActivity extends AppCompatActivity {
 
@@ -35,10 +37,16 @@ public class ConversionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         activityConversionBinding = ActivityConversionBinding.inflate(getLayoutInflater());
         setContentView(activityConversionBinding.getRoot());
+
+        DaggerConversionActivityComponent
+          .builder()
+          .viewModelModule(new ViewModelModule(this))
+          .appComponent(((CurrencyConverterApplication) getApplication()).appComponent)
+          .build()
+          .inject(this);
 
         connectDialPad();
         initCurrencySpinners();

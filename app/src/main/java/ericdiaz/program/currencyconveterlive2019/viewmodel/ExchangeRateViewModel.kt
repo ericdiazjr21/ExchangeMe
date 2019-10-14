@@ -3,12 +3,11 @@ package ericdiaz.program.currencyconveterlive2019.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ericdiaz.program.currencyconveterlive2019.extensions.getExchangeValue
-import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository
+import ericdiaz.program.data.repository.BaseRepository
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import javax.inject.Inject
 
-class ExchangeRateViewModel @Inject constructor(private val exchangeRateRepository: BaseRepository) : BaseViewModel() {
+class ExchangeRateViewModel(private val exchangeRateNetworkRepository: BaseRepository) : BaseViewModel() {
 
     private val exchangeRateData = MutableLiveData<State>()
     lateinit var baseCurrency: String
@@ -17,7 +16,7 @@ class ExchangeRateViewModel @Inject constructor(private val exchangeRateReposito
 
     fun getConversionValue(date: String = "latest") {
         addDisposables(
-                exchangeRateRepository
+                exchangeRateNetworkRepository
                         .requestExchangeRates(date, baseCurrency)
                         .delaySubscription(
                                 Completable.fromAction { exchangeRateData.setValue(State.Loading) })

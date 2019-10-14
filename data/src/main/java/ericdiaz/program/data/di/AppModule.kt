@@ -1,4 +1,4 @@
-package ericdiaz.program.currencyconveterlive2019.di
+package ericdiaz.program.data.di
 
 import android.content.Context
 import android.content.res.Resources
