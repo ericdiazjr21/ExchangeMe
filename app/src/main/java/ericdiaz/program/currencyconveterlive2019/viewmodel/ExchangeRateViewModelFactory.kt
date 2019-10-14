@@ -2,7 +2,7 @@ package ericdiaz.program.currencyconveterlive2019.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository
+import ericdiaz.program.data.repository.ExchangeRateNetworkRepository
 import javax.inject.Inject
 
 class ExchangeRateViewModelFactory @Inject constructor(private val exchangeRateNetworkRepository: ExchangeRateNetworkRepository)

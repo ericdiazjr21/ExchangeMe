@@ -9,12 +9,12 @@ import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModelFactory
 
 @Module
-class ViewModelModule {
+class ViewModelModule(private val conversionActivity: ConversionActivity) {
 
     @Provides
     @ConversionActivityScope
-    fun providesExchangeViewModel(conversionActivity: ConversionActivity,
-                                  exchangeRateViewModelFactory: ExchangeRateViewModelFactory): ExchangeRateViewModel {
+    fun providesExchangeViewModel(
+            exchangeRateViewModelFactory: ExchangeRateViewModelFactory): ExchangeRateViewModel {
         return ViewModelProviders.of(conversionActivity, exchangeRateViewModelFactory).get(ExchangeRateViewModel::class.java)
     }
 }

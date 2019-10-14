@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import ericdiaz.program.currencyconveterlive2019.repository.BaseRepository;
-import ericdiaz.program.currencyconveterlive2019.repository.ExchangeRateNetworkRepository;
+import ericdiaz.program.data.repository.BaseRepository;
+import ericdiaz.program.data.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 import ericdiaz.program.data.model.ExchangeRateResponse;

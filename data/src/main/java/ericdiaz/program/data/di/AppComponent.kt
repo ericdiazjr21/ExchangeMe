@@ -1,9 +1,8 @@
-package ericdiaz.program.currencyconveterlive2019.di
+package ericdiaz.program.data.di
 
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
-import ericdiaz.program.currencyconveterlive2019.view.di.ConversionActivityModule
+import ericdiaz.program.data.db.di.DatabaseModule
 import ericdiaz.program.data.network.di.NetworkModule
 import javax.inject.Singleton
 
@@ -13,11 +12,10 @@ of this component.
 */
 @Component(modules = [
     AppModule::class,
-    ConversionActivityModule::class,
-    AndroidInjectionModule::class,
-    NetworkModule::class])
+    NetworkModule::class,
+    DatabaseModule::class])
 @Singleton
-interface AppComponent {
+interface AppComponent : Provider {
 
     /*
     This annotation helps dagger create a custom builder for this

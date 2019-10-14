@@ -1,6 +1,8 @@
-package ericdiaz.program.currencyconveterlive2019.repository;
+package ericdiaz.program.data.repository;
 
 import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -17,6 +19,7 @@ public class ExchangeRateNetworkRepository implements BaseRepository {
         this.exchangeRateService = exchangeRateService;
     }
 
+    @NotNull
     @Override
     public Single<ExchangeRateResponse> requestExchangeRates(@NonNull final String date,
                                                              @NonNull final String baseCurrency) {
