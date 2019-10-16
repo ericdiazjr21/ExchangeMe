@@ -5,4 +5,9 @@
     <color name="colorAccent">#F57F17</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="transparent_Primary">#80202A3A</color>
+    <color name="deepAqua">#003B46</color>
+    <color name="ocean">#07575B</color>
+    <color name="wave">#66A5AD</color>
+    <color name="seaFoam">#C4DFE6</color>
+    <color name="white">#FFFFFF</color>
 </resources>
