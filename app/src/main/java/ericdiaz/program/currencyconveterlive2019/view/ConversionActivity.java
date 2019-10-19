@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import ericdiaz.program.currencyconveterlive2019.R;
 import ericdiaz.program.currencyconveterlive2019.databinding.ActivityConversionBinding;
 import ericdiaz.program.currencyconveterlive2019.di.DaggerConversionActivityComponent;
+import ericdiaz.program.currencyconveterlive2019.view.adapter.CurrencyAdapter;
 import ericdiaz.program.currencyconveterlive2019.view.dialpad.DialPad;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
@@ -31,9 +32,10 @@ public class ConversionActivity extends AppCompatActivity {
     @Inject
     ExchangeRateViewModel exchangeRateViewModel;
     @Inject
-    ArrayAdapter<CharSequence> currencyAdapter;
+    CurrencyAdapter newCurrencyAdapter;
     @Inject
     String[] currencyList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +66,8 @@ public class ConversionActivity extends AppCompatActivity {
         Spinner baseCurrencySpinner = activityConversionBinding.baseCurrencySpinner;
         Spinner foreignCurrencySpinner = activityConversionBinding.foreignCurrencySpinner;
 
-        baseCurrencySpinner.setAdapter(currencyAdapter);
-        foreignCurrencySpinner.setAdapter(currencyAdapter);
+        baseCurrencySpinner.setAdapter(newCurrencyAdapter);
+        foreignCurrencySpinner.setAdapter(newCurrencyAdapter);
 
         baseCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
