@@ -1,9 +1,10 @@
-package ericdiaz.program.currencyconveterlive2019;
+package ericdiaz.program.data;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ericdiaz.program.data.network.CurrencyProfileService;
 import ericdiaz.program.data.repository.BaseRepository;
 import ericdiaz.program.data.repository.ExchangeRateNetworkRepository;
 import ericdiaz.program.data.model.ExchangeRateResponse;
@@ -17,12 +18,14 @@ import static org.mockito.Mockito.when;
 public class RepositoryTest {
 
     private BaseRepository testSubject;
-    private ExchangeRateService serviceMock;
+    private ExchangeRateService exchangeRateServiceMock;
+    private CurrencyProfileService currencyProfileServiceMock;
 
     @Before
     public void setUp() {
-        serviceMock = mock(ExchangeRateService.class);
-        testSubject = new ExchangeRateNetworkRepository(serviceMock);
+        exchangeRateServiceMock = mock(ExchangeRateService.class);
+        currencyProfileServiceMock = mock(CurrencyProfileService.class);
+        testSubject = new ExchangeRateNetworkRepository(exchangeRateServiceMock, currencyProfileServiceMock);
     }
 
     @Test
@@ -34,11 +37,13 @@ public class RepositoryTest {
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         //when
-        when(serviceMock.getExchangeRates(date, baseCurrency)).thenReturn(expectedResponse);
+        when(exchangeRateServiceMock.getExchangeRates(date, baseCurrency)).thenReturn(expectedResponse);
 
         //then
         assertThat(testSubject.requestExchangeRates(date, baseCurrency)).isEqualTo(expectedResponse);
     }
+
+
 
     @After
     public void tearDown() {
