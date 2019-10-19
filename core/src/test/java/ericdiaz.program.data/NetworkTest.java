@@ -1,26 +1,52 @@
-package ericdiaz.program.currencyconveterlive2019;
+package ericdiaz.program.data;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
+import ericdiaz.program.data.model.CurrencyProfile;
 import ericdiaz.program.data.model.ExchangeRateResponse;
+import ericdiaz.program.data.network.CurrencyProfileService;
 import ericdiaz.program.data.network.ExchangeRateService;
 import ericdiaz.program.data.network.di.NetworkModule;
 import io.reactivex.observers.TestObserver;
+import okhttp3.OkHttpClient;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class NetworkTest {
 
     private ExchangeRateService exchangeRateService;
+    private CurrencyProfileService currencyProfileService;
 
     @Before
     public void setUp() {
         NetworkModule networkModule = new NetworkModule();
+        OkHttpClient okHttpClient = networkModule.providesOkHttpClient(
+          networkModule.providesHttpLoggingInterceptor()
+        );
+        GsonConverterFactory gsonConverterFactory = networkModule.providesGsonConverterFactory();
+        RxJava2CallAdapterFactory rxJava2CallAdapterFactory = networkModule.providesRxJava2CallAdapterFactory();
+
         exchangeRateService =
           networkModule.providesExchangeRateService(
-            networkModule.providesRetrofit(
-              networkModule.providesOkHttpClient(
-                networkModule.providesHttpLoggingInterceptor())));
+            networkModule.providesExchangeRateRetrofit(
+              okHttpClient,
+              gsonConverterFactory,
+              rxJava2CallAdapterFactory
+            )
+          );
+
+        currencyProfileService =
+          networkModule.providesCurrencyProfileService(
+            networkModule.providesCurrencyProfileRetrofit(
+              okHttpClient,
+              gsonConverterFactory,
+              rxJava2CallAdapterFactory
+            )
+          );
     }
 
     @Test
@@ -110,5 +136,18 @@ public class NetworkTest {
           .assertValue(response -> response.getDate().equals(expectedShiftedDateResponse));
     }
 
+    @Test
+    public void testCurrencyProfileServiceSuccessResponse() throws InterruptedException {
+
+        //when
+        TestObserver<Map<String, CurrencyProfile>> mapTestObserver = currencyProfileService.getCurrencyProfileMap().test();
+
+        //then
+        mapTestObserver
+          .await()
+          .assertNoErrors()
+          .assertValue(response -> response.get("USD").getCurrencyName().equals("United States Dollar"))
+          .assertValue(response -> response.get("CAD").getCountry().equals("Canada"));
+    }
 
 }
