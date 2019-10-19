@@ -5,7 +5,7 @@ import android.content.res.Resources
 import ericdiaz.program.data.repository.ExchangeRateDatabaseRepository
 import ericdiaz.program.data.repository.ExchangeRateNetworkRepository
 
-interface Provider {
+interface AppComponentProvider {
 
     fun providesContext(): Context
 

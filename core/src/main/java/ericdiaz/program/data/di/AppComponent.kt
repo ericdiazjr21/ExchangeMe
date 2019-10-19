@@ -15,7 +15,7 @@ of this component.
     NetworkModule::class,
     DatabaseModule::class])
 @Singleton
-interface AppComponent : Provider {
+interface AppComponent : AppComponentProvider {
 
     /*
     This annotation helps dagger create a custom builder for this
