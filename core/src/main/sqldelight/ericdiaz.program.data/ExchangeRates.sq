@@ -1,4 +1,5 @@
 import kotlin.collections.Map;
+import ericdiaz.program.data.model.CurrencyProfile;
 
 CREATE TABLE exchangeRates(
 exchangeRates_date TEXT NOT NULL,
@@ -22,4 +23,18 @@ exchangeRates_map,
 exchangeRates_baseCurrency)
 
 VALUES(?,?,?);
+
+
+CREATE TABLE currencyProfiles(
+currencyProfilesMap TEXT AS Map<String,CurrencyProfile> NOT NULL
+);
+
+selectCurrencyProfileMap:
+SELECT *
+FROM currencyProfiles;
+
+insertCurrencyProfileMap:
+INSERT OR REPLACE INTO currencyProfiles(currencyProfilesMap)
+
+VALUES(?);
 

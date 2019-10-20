@@ -7,8 +7,10 @@ import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Module
 import dagger.Provides
+import ericdiaz.program.data.CurrencyProfiles
 import ericdiaz.program.data.ExchangeRates
 import ericdiaz.program.data.db.ExchangeRateDatabase
+import ericdiaz.program.data.model.CurrencyProfile
 import javax.inject.Singleton
 
 @Module
@@ -20,9 +22,13 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesExchangeRateDatabase(androidSQLiteDriver: AndroidSqliteDriver,
-                                     exchangeRateDatabaseAdapter: ExchangeRates.Adapter): ExchangeRateDatabase {
-        return ExchangeRateDatabase(androidSQLiteDriver, exchangeRateDatabaseAdapter)
+    fun providesExchangeRateDatabase(
+            androidSQLiteDriver: AndroidSqliteDriver,
+            exchangeRateDatabaseAdapter: ExchangeRates.Adapter,
+            currencyProfilesAdapter: CurrencyProfiles.Adapter
+    ): ExchangeRateDatabase {
+
+        return ExchangeRateDatabase(androidSQLiteDriver, exchangeRateDatabaseAdapter, currencyProfilesAdapter)
     }
 
     @Provides
@@ -41,7 +47,18 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesColumnAdapter(gson: Gson): ColumnAdapter<Map<String, Double>, String> {
+    fun providesCurrencyProfilesAdapter(
+            columnAdapter: ColumnAdapter<Map<String, CurrencyProfile>, String>
+    ): CurrencyProfiles.Adapter {
+        return CurrencyProfiles.Adapter(columnAdapter)
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesExchangeRateColumnAdapter(gson: Gson)
+            : ColumnAdapter<Map<String, Double>, String> {
+
         return object : ColumnAdapter<Map<String, Double>, String> {
             override fun decode(databaseValue: String): Map<String, Double> {
                 return gson.fromJson(databaseValue, object : TypeToken<Map<String, Double>>() {}.type)
@@ -51,6 +68,21 @@ class DatabaseModule {
                 return gson.toJson(value)
             }
         }
+    }
+
+    @Provides
+    @Singleton
+    fun providesCurrencyProfileColumnAdapter(gson: Gson): ColumnAdapter<Map<String, CurrencyProfile>, String> {
+        return object : ColumnAdapter<Map<String, CurrencyProfile>, String> {
+            override fun decode(databaseValue: String): Map<String, CurrencyProfile> {
+                return gson.fromJson(databaseValue, object : TypeToken<Map<String, CurrencyProfile>>() {}.type)
+            }
+
+            override fun encode(value: Map<String, CurrencyProfile>): String {
+                return gson.toJson(value)
+            }
+        }
+
     }
 
     @Provides

@@ -7,6 +7,7 @@ import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver.Companion.IN_MEMORY
 import ericdiaz.program.data.db.ExchangeRateDatabase
+import ericdiaz.program.data.model.CurrencyProfile
 import ericdiaz.program.data.model.ExchangeRateResponse
 import org.junit.Test
 
@@ -15,18 +16,34 @@ class DatabaseTest {
         ExchangeRateDatabase.Schema.create(this)
     }
 
+    private val gson = Gson()
+
     private val exchangeRateAdapter = ExchangeRates.Adapter(object : ColumnAdapter<Map<String, Double>, String> {
         override fun encode(value: Map<String, Double>): String {
-            return Gson().toJson(value)
+            return gson.toJson(value)
         }
 
         override fun decode(databaseValue: String): Map<String, Double> {
-            return Gson().fromJson(databaseValue, object : TypeToken<Map<String, Double>>() {}.type)
+            return gson.fromJson(databaseValue, object : TypeToken<Map<String, Double>>() {}.type)
+        }
+    })
+
+    private val currencyProfilesAdapter = CurrencyProfiles.Adapter(object : ColumnAdapter<Map<String, CurrencyProfile>, String> {
+        override fun decode(databaseValue: String): Map<String, CurrencyProfile> {
+            return gson.fromJson(databaseValue, object : TypeToken<Map<String, CurrencyProfile>>() {}.type)
+        }
+
+        override fun encode(value: Map<String, CurrencyProfile>): String {
+            return gson.toJson(value)
         }
     })
 
 
-    private val queries = ExchangeRateDatabase(inMemorySqlDriver, exchangeRateAdapter).exchangeRatesQueries
+    private val queries = ExchangeRateDatabase(
+            inMemorySqlDriver,
+            exchangeRateAdapter,
+            currencyProfilesAdapter
+    ).exchangeRatesQueries
 
     @Test
     fun `Given a mock response, when mock is inserted and then retrieved, then assert retrieved result is equal to inserted`() {
@@ -83,6 +100,21 @@ class DatabaseTest {
 
         //And Then Assert
         assertThat(secondInsertResult.exchangeRates_map).isEqualTo(expectedEmptyMap)
+    }
+
+    @Test
+    fun `Given a mock map, when insertCurrencyProfileMap is called and then selectCurrencyProfileMap is called to retrieve, then assert the the retrieved map is equal to the mock`(){
+        //Given
+        val mockCurrencyProfileMap = CurrencyProfile.EMPTY
+
+        //When
+        queries.insertCurrencyProfileMap(mockCurrencyProfileMap)
+
+        val databaseRetrievalResponse = queries.selectCurrencyProfileMap().executeAsOne()
+
+        //Then
+        assertThat(databaseRetrievalResponse["ASR"]?.currencyName).isEqualTo("Asiria Ruble")
+        assertThat(databaseRetrievalResponse["ERC"]?.country).isEqualTo("My Country")
     }
 }
 

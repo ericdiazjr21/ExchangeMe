@@ -40,7 +40,7 @@ jobs:
           name: Run Data Module Tests
           command: ./gradlew lint test
       - store_artifacts:
-          path: data/build/reports
+          path: core/build/reports
           destination: reports
       - store_test_results:
-          path: data/build/test-results
+          path: core/build/test-results

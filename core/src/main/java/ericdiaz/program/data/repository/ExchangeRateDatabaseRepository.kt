@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ExchangeRateDatabaseRepository @Inject constructor(exchangeRateDatabase: ExchangeRateDatabase) : BaseRepository {
 
     override fun requestExchangeRates(date: String, baseCurrency: String): Single<ExchangeRateResponse> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Single.just(getCachedRatesByDateAndBaseCurrency(date,baseCurrency))
     }
 
     private val exchangeRatesDatabaseQueries: ExchangeRatesQueries = exchangeRateDatabase.exchangeRatesQueries
@@ -24,7 +24,7 @@ class ExchangeRateDatabaseRepository @Inject constructor(exchangeRateDatabase: E
                 )
     }
 
-    fun getCachedRatesByDateAndBaseCurrency(date: String,
+    private fun getCachedRatesByDateAndBaseCurrency(date: String,
                                             baseCurrency: String): ExchangeRateResponse {
         return exchangeRatesDatabaseQueries
                 .selectByDateAndBaseCurrency(
