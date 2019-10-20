@@ -2,6 +2,7 @@ package ericdiaz.program.data.repository
 
 import ericdiaz.program.data.ExchangeRatesQueries
 import ericdiaz.program.data.db.ExchangeRateDatabase
+import ericdiaz.program.data.model.CurrencyProfile
 import ericdiaz.program.data.model.ExchangeRateResponse
 import io.reactivex.Single
 import javax.inject.Inject
@@ -9,11 +10,27 @@ import javax.inject.Inject
 //TODO: address threading in these function
 class ExchangeRateDatabaseRepository @Inject constructor(exchangeRateDatabase: ExchangeRateDatabase) : BaseRepository {
 
+    private val exchangeRatesDatabaseQueries: ExchangeRatesQueries = exchangeRateDatabase.exchangeRatesQueries
+
     override fun requestExchangeRates(date: String, baseCurrency: String): Single<ExchangeRateResponse> {
-        return Single.just(getCachedRatesByDateAndBaseCurrency(date,baseCurrency))
+        return Single.just(
+                exchangeRatesDatabaseQueries
+                        .selectByDateAndBaseCurrency(
+                                date,
+                                baseCurrency,
+                                mapper = { cachedDate, cachedRateMap, cachedBaseCurrency ->
+                                    ExchangeRateResponse(
+                                            date = cachedDate,
+                                            ratesMap = cachedRateMap,
+                                            baseCurrency = cachedBaseCurrency)
+                                }
+                        ).executeAsOne()
+        )
     }
 
-    private val exchangeRatesDatabaseQueries: ExchangeRatesQueries = exchangeRateDatabase.exchangeRatesQueries
+    override fun requestCurrencyProfiles(): Single<Map<String, CurrencyProfile>> {
+        return Single.just(exchangeRatesDatabaseQueries.selectCurrencyProfileMap().executeAsOne())
+    }
 
     fun insertExchangeRateResponse(exchangeRateResponse: ExchangeRateResponse) {
         exchangeRatesDatabaseQueries
@@ -24,20 +41,8 @@ class ExchangeRateDatabaseRepository @Inject constructor(exchangeRateDatabase: E
                 )
     }
 
-    private fun getCachedRatesByDateAndBaseCurrency(date: String,
-                                            baseCurrency: String): ExchangeRateResponse {
-        return exchangeRatesDatabaseQueries
-                .selectByDateAndBaseCurrency(
-                        date,
-                        baseCurrency,
-                        mapper = { cachedDate, cachedRateMap, cachedBaseCurrency ->
-                            ExchangeRateResponse(
-                                    date = cachedDate,
-                                    ratesMap = cachedRateMap,
-                                    baseCurrency = cachedBaseCurrency)
-                        }
-                ).executeAsOne()
-
+    fun insertCurrencyProfileMap(currencyProfileMap: Map<String, CurrencyProfile>) {
+        exchangeRatesDatabaseQueries.insertCurrencyProfileMap(currencyProfileMap)
     }
 
 }
