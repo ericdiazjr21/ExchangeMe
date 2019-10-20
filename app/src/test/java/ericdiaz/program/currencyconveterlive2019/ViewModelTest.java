@@ -42,7 +42,7 @@ public class ViewModelTest {
 
         //setup view model with dependencies mocked
         mockRepository = mock(ExchangeRateNetworkRepository.class);
-        testSubject = new ExchangeRateViewModel(mockRepository);
+        testSubject = new ExchangeRateViewModel(mockRepository, exchangeRateDatabaseRepository);
 
         //mock the live data observer
         mockObserver = mock(Observer.class);

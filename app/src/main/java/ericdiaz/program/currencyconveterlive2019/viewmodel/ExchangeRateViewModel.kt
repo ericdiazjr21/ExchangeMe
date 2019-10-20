@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ericdiaz.program.currencyconveterlive2019.extensions.getExchangeValue
 import ericdiaz.program.data.repository.BaseRepository
+import ericdiaz.program.data.repository.ExchangeRateDatabaseRepository
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class ExchangeRateViewModel(private val exchangeRateNetworkRepository: BaseRepository) : BaseViewModel() {
+class ExchangeRateViewModel(private val exchangeRateNetworkRepository: BaseRepository,
+                            private val exchangeRateDatabaseRepository: ExchangeRateDatabaseRepository) : BaseViewModel() {
 
     private val exchangeRateData = MutableLiveData<State>()
     lateinit var baseCurrency: String
