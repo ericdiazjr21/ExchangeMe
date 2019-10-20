@@ -116,6 +116,18 @@ class DatabaseTest {
         assertThat(databaseRetrievalResponse["ASR"]?.currencyName).isEqualTo("Asiria Ruble")
         assertThat(databaseRetrievalResponse["ERC"]?.country).isEqualTo("My Country")
     }
+
+    @Test
+    fun `When selectCurrentProfileMap is called and database is empty, then see what happens`(){
+        //given
+        val expectedResponse = null
+
+        //When
+        val databaseCurrencyMapResponse = queries.selectCurrencyProfileMap().executeAsOneOrNull()
+
+        //Then
+        assertThat(databaseCurrencyMapResponse).isEqualTo(expectedResponse)
+    }
 }
 
 

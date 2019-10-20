@@ -24,12 +24,12 @@ class ExchangeRateDatabaseRepository @Inject constructor(exchangeRateDatabase: E
                                             ratesMap = cachedRateMap,
                                             baseCurrency = cachedBaseCurrency)
                                 }
-                        ).executeAsOne()
+                        ).executeAsOneOrNull()
         )
     }
 
     override fun requestCurrencyProfiles(): Single<Map<String, CurrencyProfile>> {
-        return Single.just(exchangeRatesDatabaseQueries.selectCurrencyProfileMap().executeAsOne())
+        return Single.just(exchangeRatesDatabaseQueries.selectCurrencyProfileMap().executeAsOneOrNull())
     }
 
     fun insertExchangeRateResponse(exchangeRateResponse: ExchangeRateResponse) {

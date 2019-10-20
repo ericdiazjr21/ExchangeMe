@@ -138,16 +138,19 @@ public class NetworkTest {
 
     @Test
     public void testCurrencyProfileServiceSuccessResponse() throws InterruptedException {
+        //Given
+        String expectedCurrencyName = "United States Dollar";
+        String expectedCountryResponse = "Canada";
 
-        //when
+        //When
         TestObserver<Map<String, CurrencyProfile>> mapTestObserver = currencyProfileService.getCurrencyProfileMap().test();
 
-        //then
+        //Then
         mapTestObserver
           .await()
           .assertNoErrors()
-          .assertValue(response -> response.get("USD").getCurrencyName().equals("United States Dollar"))
-          .assertValue(response -> response.get("CAD").getCountry().equals("Canada"));
+          .assertValue(response -> response.get("USD").getCurrencyName().equals(expectedCurrencyName))
+          .assertValue(response -> response.get("CAD").getCountry().equals(expectedCountryResponse));
     }
 
 }
