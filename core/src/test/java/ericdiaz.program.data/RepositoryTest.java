@@ -4,6 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
+import ericdiaz.program.data.model.CurrencyProfile;
 import ericdiaz.program.data.network.CurrencyProfileService;
 import ericdiaz.program.data.repository.BaseRepository;
 import ericdiaz.program.data.repository.ExchangeRateNetworkRepository;
@@ -41,6 +44,16 @@ public class RepositoryTest {
 
         //then
         assertThat(testSubject.requestExchangeRates(date, baseCurrency)).isEqualTo(expectedResponse);
+    }
+
+    @Test
+    public void testRequestCurrencyMapMethodCallWhenDatabaseMockSelectCurrencyMapMethodIsCalledThenAssertTestSubjectReturnsExpectedResult(){
+        //Given
+        Single<Map<String, CurrencyProfile>> expectedResponse = Single.just(CurrencyProfile.Companion.getEMPTY());
+        //When
+        when(currencyProfileServiceMock.getCurrencyProfileMap()).thenReturn(expectedResponse);
+        //Then
+        assertThat(testSubject.requestCurrencyProfiles()).isEqualTo(expectedResponse);
     }
 
 

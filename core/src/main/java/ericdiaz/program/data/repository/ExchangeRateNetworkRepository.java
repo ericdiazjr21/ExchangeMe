@@ -33,7 +33,9 @@ public class ExchangeRateNetworkRepository implements BaseRepository {
         return exchangeRateService.getExchangeRates(date, baseCurrency);
     }
 
-    public Single<Map<String, CurrencyProfile>> getAllCurrencyProfiles() {
+    @NotNull
+    @Override
+    public Single<Map<String, CurrencyProfile>> requestCurrencyProfiles() {
         return currencyProfileService.getCurrencyProfileMap();
     }
 }
