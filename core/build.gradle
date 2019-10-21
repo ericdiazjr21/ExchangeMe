@@ -48,6 +48,7 @@ dependencies {
 
     //For local persistence
     implementation 'com.squareup.sqldelight:android-driver:1.2.0'
+    implementation "com.squareup.sqldelight:rxjava2-extensions:1.2.0"
 
     // Gson for model conversion
     implementation 'com.google.code.gson:gson:2.8.6'
