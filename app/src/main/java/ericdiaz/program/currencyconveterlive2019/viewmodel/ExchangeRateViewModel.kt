@@ -8,11 +8,13 @@ import ericdiaz.program.data.repository.ExchangeRateNetworkRepository
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
 class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeRateNetworkRepository,
                             private val exchangeRateDatabaseRepository: ExchangeRateDatabaseRepository) : BaseViewModel() {
 
     private val exchangeRateData = MutableLiveData<State>()
+    private val currencyProfilesData = MutableLiveData<State>()
     lateinit var baseCurrency: String
     lateinit var foreignCurrency: String
     lateinit var baseCurrencyAmount: String
@@ -52,7 +54,22 @@ class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeR
         )
     }
 
+    fun getCurrencyProfiles() {
+        addDisposables(exchangeRateNetworkRepository
+                .requestCurrencyProfiles()
+                .doOnSuccess {
+                    exchangeRateDatabaseRepository.insertCurrencyProfileMap(it)
+                }.subscribeBy(
+                        onSuccess = { State.CurrencyProfileSuccess(it) },
+                        onError = { State.Failure(it) }
+                ))
+    }
+
     fun getExchangeRateData(): LiveData<State> {
         return exchangeRateData
+    }
+
+    fun getCurrencyProfilesData(): LiveData<State> {
+        return currencyProfilesData
     }
 }

@@ -6,10 +6,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -22,16 +21,15 @@ import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.di.ViewModelModule;
 import ericdiaz.program.data.di.CurrencyConverterApplication;
+import ericdiaz.program.data.model.CurrencyProfile;
 
-public class ConversionActivity extends AppCompatActivity {
+public class ConversionActivity extends BaseActivity {
 
     private static final String TAG = "ConversionActivity";
     private ActivityConversionBinding activityConversionBinding;
 
     @Inject
     ExchangeRateViewModel exchangeRateViewModel;
-    @Inject
-    CurrencyAdapter newCurrencyAdapter;
     @Inject
     String[] currencyList;
 
@@ -50,7 +48,7 @@ public class ConversionActivity extends AppCompatActivity {
           .inject(this);
 
         connectDialPad();
-        initCurrencySpinners();
+        loadCurrencyProfiles();
         setConvertButtonListener();
         observeExchangeRateViewModel();
     }
@@ -61,9 +59,27 @@ public class ConversionActivity extends AppCompatActivity {
         dialPad.connectInputTo(activityConversionBinding.baseCurrencyAmountEditText);
     }
 
-    private void initCurrencySpinners() {
+    private void loadCurrencyProfiles() {
+        if (isFirstTimeInstall()) {
+            exchangeRateViewModel.getCurrencyProfiles();
+            exchangeRateViewModel.getCurrencyProfilesData().observe(this, state -> {
+                if (state instanceof State.CurrencyProfileSuccess)
+                    initCurrencySpinners(((State.CurrencyProfileSuccess) state).getCurrencyProfileMap());
+                else if(state instanceof State.Failure){
+                    Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
+                }
+            });
+        }
+    }
+
+    private void initCurrencySpinners(Map<String, CurrencyProfile> currencyProfileMap) {
         Spinner baseCurrencySpinner = activityConversionBinding.baseCurrencySpinner;
         Spinner foreignCurrencySpinner = activityConversionBinding.foreignCurrencySpinner;
+
+        CurrencyAdapter newCurrencyAdapter = new CurrencyAdapter(
+          getLayoutInflater(),
+          currencyList,
+          currencyProfileMap);
 
         baseCurrencySpinner.setAdapter(newCurrencyAdapter);
         foreignCurrencySpinner.setAdapter(newCurrencyAdapter);

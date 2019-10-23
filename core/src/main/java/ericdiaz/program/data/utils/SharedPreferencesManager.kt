@@ -8,15 +8,19 @@ class SharedPreferencesManager @Inject constructor(application: CurrencyConverte
 
     companion object {
         private const val SHARED_PREFERENCES_NAME = "ericdiaz.program.currencyconverterlive1019.sharedprefs"
-        const val FIRST_TIME_INSTALL = "key for tracking first time download"
+        private const val FIRST_TIME_INSTALL = "key for tracking first time download"
     }
 
     private val sharedPreferences = application.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
-    fun editSharedPreferences(key: String, value: Any): Boolean {
+    fun setFirstTimeInstallState(value: Boolean): Boolean {
         return sharedPreferences.edit()
-                .putBoolean(key, value as Boolean)
+                .putBoolean(FIRST_TIME_INSTALL, value)
                 .commit()
+    }
+
+    fun isFirstTimeInstall(): Boolean {
+        return sharedPreferences.getBoolean(FIRST_TIME_INSTALL, true)
     }
 
 }

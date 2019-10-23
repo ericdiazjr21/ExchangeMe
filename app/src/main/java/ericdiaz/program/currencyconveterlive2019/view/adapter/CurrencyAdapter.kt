@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 import ericdiaz.program.currencyconveterlive2019.R
+import ericdiaz.program.data.model.CurrencyProfile
 import javax.inject.Inject
 
 class CurrencyAdapter @Inject constructor(private val layoutInflater: LayoutInflater?,
                                           private val currencyList: Array<String>,
-                                          private val currencyFlagResId: Int) : BaseAdapter() {
+                                          private val currencyProfileMap: Map<String, CurrencyProfile>) : BaseAdapter() {
 
     override fun getItem(position: Int): Any {
         return Any()
@@ -28,7 +30,7 @@ class CurrencyAdapter @Inject constructor(private val layoutInflater: LayoutInfl
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return layoutInflater?.inflate(R.layout.currency_spinner_layout, null)?.apply {
             this.findViewById<ImageView>(R.id.currency_spinner_image_view)?.apply {
-                setImageResource(currencyFlagResId)
+                Picasso.get().load(currencyProfileMap[currencyList[position]]?.flag).into(this)
             }
             this.findViewById<TextView>(R.id.currency_spinner_text_view)?.apply {
                 text = currencyList[position]

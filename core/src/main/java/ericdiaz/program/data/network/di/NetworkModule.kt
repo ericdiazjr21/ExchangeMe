@@ -2,7 +2,9 @@ package ericdiaz.program.data.network.di
 
 import dagger.Module
 import dagger.Provides
+import ericdiaz.program.data.network.CurrencyProfileRetrofit
 import ericdiaz.program.data.network.CurrencyProfileService
+import ericdiaz.program.data.network.ExchangeRateRetrofit
 import ericdiaz.program.data.network.ExchangeRateService
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
