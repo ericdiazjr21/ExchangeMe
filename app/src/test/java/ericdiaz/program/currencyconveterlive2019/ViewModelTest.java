@@ -6,17 +6,24 @@ import androidx.lifecycle.Observer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Answers;
+import org.mockito.Mockito;
+import org.mockito.internal.matchers.Any;
 
-import ericdiaz.program.data.repository.BaseRepository;
-import ericdiaz.program.data.repository.ExchangeRateNetworkRepository;
+import java.util.NoSuchElementException;
+
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.State;
 import ericdiaz.program.data.model.ExchangeRateResponse;
+import ericdiaz.program.data.repository.ExchangeRateDatabaseRepository;
+import ericdiaz.program.data.repository.ExchangeRateNetworkRepository;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -30,7 +37,8 @@ public class ViewModelTest {
     @Rule // -> allows liveData to work on different thread besides main, must be public!
     public InstantTaskExecutorRule executorRule = new InstantTaskExecutorRule();
 
-    private BaseRepository mockRepository;
+    private ExchangeRateNetworkRepository mockNetworkRepository;
+    private ExchangeRateDatabaseRepository mockDatabaseRepository;
     private ExchangeRateViewModel testSubject;
     private Observer<State> mockObserver;
 
@@ -41,8 +49,9 @@ public class ViewModelTest {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> Schedulers.trampoline());
 
         //setup view model with dependencies mocked
-        mockRepository = mock(ExchangeRateNetworkRepository.class);
-        testSubject = new ExchangeRateViewModel(mockRepository, exchangeRateDatabaseRepository);
+        mockNetworkRepository = mock(ExchangeRateNetworkRepository.class);
+        mockDatabaseRepository = mock(ExchangeRateDatabaseRepository.class);
+        testSubject = new ExchangeRateViewModel(mockNetworkRepository, mockDatabaseRepository);
 
         //mock the live data observer
         mockObserver = mock(Observer.class);
@@ -62,8 +71,12 @@ public class ViewModelTest {
         testSubject.baseCurrency = baseCurrency;
         testSubject.foreignCurrency = foreignCurrency;
         testSubject.baseCurrencyAmount = baseCurrencyAmount;
+
         //when
-        when(mockRepository.requestExchangeRates(date, baseCurrency))
+        when(mockDatabaseRepository.requestExchangeRates(date, baseCurrency))
+          .thenReturn(Single.error(new NoSuchElementException()));
+
+        when(mockNetworkRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedResponse);
 
         testSubject.getConversionValue(date);
@@ -98,7 +111,10 @@ public class ViewModelTest {
         testSubject.baseCurrencyAmount = baseCurrencyAmount;
 
         //when
-        when(mockRepository.requestExchangeRates(date, baseCurrency))
+        when(mockDatabaseRepository.requestExchangeRates(date, baseCurrency))
+          .thenReturn(Single.error(new NullPointerException()));
+
+        when(mockNetworkRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedError);
 
         testSubject.getConversionValue(date);
@@ -132,7 +148,10 @@ public class ViewModelTest {
         testSubject.foreignCurrency = foreignCurrency;
         testSubject.baseCurrencyAmount = baseCurrencyAmount;
         //when
-        when(mockRepository.requestExchangeRates(date, baseCurrency))
+        when(mockDatabaseRepository.requestExchangeRates(date, baseCurrency))
+          .thenReturn(Single.error(new NullPointerException()));
+
+        when(mockNetworkRepository.requestExchangeRates(date, baseCurrency))
           .thenReturn(expectedResponse);
 
         testSubject.getConversionValue(date);

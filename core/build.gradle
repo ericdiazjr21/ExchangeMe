@@ -40,6 +40,9 @@ dependencies {
     // OkHttp logging interceptor to log network responses
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
 
+    // Timber for Logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // Dagger for dependency injection
     implementation 'com.google.dagger:dagger:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'
