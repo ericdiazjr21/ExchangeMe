@@ -77,18 +77,18 @@ public class ConversionActivity extends AppCompatActivity {
         Spinner foreignCurrencySpinner = activityConversionBinding.foreignCurrencySpinner;
 
         String[] reversedCurrencyList = StringArrayExtensionsKt.reverse(currencyList);
-        CurrencyAdapter topCurrencyAdapter = new CurrencyAdapter(
+        CurrencyAdapter baseCurrencyAdapter = new CurrencyAdapter(
           getLayoutInflater(),
           reversedCurrencyList,
           currencyProfileMap);
 
-        CurrencyAdapter bottomCurrencyAdapter = new CurrencyAdapter(
+        CurrencyAdapter foreignCurrencyAdapter = new CurrencyAdapter(
           getLayoutInflater(),
           currencyList,
           currencyProfileMap);
 
-        baseCurrencySpinner.setAdapter(topCurrencyAdapter);
-        foreignCurrencySpinner.setAdapter(bottomCurrencyAdapter);
+        baseCurrencySpinner.setAdapter(baseCurrencyAdapter);
+        foreignCurrencySpinner.setAdapter(foreignCurrencyAdapter);
 
         baseCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
