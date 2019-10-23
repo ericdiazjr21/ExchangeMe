@@ -9,11 +9,10 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import ericdiaz.program.currencyconveterlive2019.R
 import ericdiaz.program.data.model.CurrencyProfile
-import javax.inject.Inject
 
-class CurrencyAdapter @Inject constructor(private val layoutInflater: LayoutInflater?,
-                                          private val currencyList: Array<String>,
-                                          private val currencyProfileMap: Map<String, CurrencyProfile>) : BaseAdapter() {
+class CurrencyAdapter(private val layoutInflater: LayoutInflater?,
+                      private val currencyList: Array<String>,
+                      private val currencyProfileMap: Map<String, CurrencyProfile>) : BaseAdapter() {
 
     override fun getItem(position: Int): Any {
         return Any()
@@ -33,7 +32,7 @@ class CurrencyAdapter @Inject constructor(private val layoutInflater: LayoutInfl
                 Picasso.get().load(currencyProfileMap[currencyList[position]]?.flag).into(this)
             }
             this.findViewById<TextView>(R.id.currency_spinner_text_view)?.apply {
-                text = currencyList[position]
+                text = currencyProfileMap[currencyList[position]]?.currencyName
             }
         } ?: convertView!!
     }

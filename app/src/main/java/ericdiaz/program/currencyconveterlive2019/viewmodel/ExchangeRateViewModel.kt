@@ -8,7 +8,6 @@ import ericdiaz.program.data.repository.ExchangeRateNetworkRepository
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
-import javax.inject.Inject
 
 class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeRateNetworkRepository,
                             private val exchangeRateDatabaseRepository: ExchangeRateDatabaseRepository) : BaseViewModel() {
@@ -48,20 +47,26 @@ class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeR
                         .observeOn(AndroidSchedulers.mainThread())
 
                         .subscribeBy(
-                                onError = { throwable -> exchangeRateData.value = State.Failure(throwable) },
-                                onSuccess = { response -> exchangeRateData.value = State.Success(response) }
+                                onSuccess = { response -> exchangeRateData.value = State.Success(response) },
+                                onError = { throwable -> exchangeRateData.value = State.Failure(throwable) }
                         )
         )
     }
 
     fun getCurrencyProfiles() {
-        addDisposables(exchangeRateNetworkRepository
+        addDisposables(exchangeRateDatabaseRepository
                 .requestCurrencyProfiles()
-                .doOnSuccess {
-                    exchangeRateDatabaseRepository.insertCurrencyProfileMap(it)
-                }.subscribeBy(
-                        onSuccess = { State.CurrencyProfileSuccess(it) },
-                        onError = { State.Failure(it) }
+                .onErrorResumeNext {
+                    exchangeRateNetworkRepository
+                            .requestCurrencyProfiles()
+                            .doOnSuccess {
+                                exchangeRateDatabaseRepository.insertCurrencyProfileMap(it)
+                            }.retry(3)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onSuccess = { response -> currencyProfilesData.value = State.CurrencyProfileSuccess(response) },
+                        onError = { throwable -> currencyProfilesData.value = State.Failure(throwable) }
                 ))
     }
 
