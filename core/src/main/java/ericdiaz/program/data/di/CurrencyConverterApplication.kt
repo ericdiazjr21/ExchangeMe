@@ -1,6 +1,7 @@
 package ericdiaz.program.data.di
 
 import android.app.Application
+import timber.log.Timber
 
 class CurrencyConverterApplication : Application() {
 
@@ -14,6 +15,8 @@ class CurrencyConverterApplication : Application() {
                 .application(this)
                 .build()
         appComponent.inject(this)
+
+        Timber.plant(Timber.DebugTree())
     }
 
 }
