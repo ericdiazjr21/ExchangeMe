@@ -13,6 +13,7 @@ class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeR
                             private val exchangeRateDatabaseRepository: ExchangeRateDatabaseRepository) : BaseViewModel() {
 
     private val exchangeRateData = MutableLiveData<State>()
+    private val currencyProfilesData = MutableLiveData<State>()
     lateinit var baseCurrency: String
     lateinit var foreignCurrency: String
     lateinit var baseCurrencyAmount: String
@@ -46,13 +47,34 @@ class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeR
                         .observeOn(AndroidSchedulers.mainThread())
 
                         .subscribeBy(
-                                onError = { throwable -> exchangeRateData.value = State.Failure(throwable) },
-                                onSuccess = { response -> exchangeRateData.value = State.Success(response) }
+                                onSuccess = { response -> exchangeRateData.value = State.Success(response) },
+                                onError = { throwable -> exchangeRateData.value = State.Failure(throwable) }
                         )
         )
     }
 
+    fun getCurrencyProfiles() {
+        addDisposables(exchangeRateDatabaseRepository
+                .requestCurrencyProfiles()
+                .onErrorResumeNext {
+                    exchangeRateNetworkRepository
+                            .requestCurrencyProfiles()
+                            .doOnSuccess {
+                                exchangeRateDatabaseRepository.insertCurrencyProfileMap(it)
+                            }.retry(3)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onSuccess = { response -> currencyProfilesData.value = State.CurrencyProfileSuccess(response) },
+                        onError = { throwable -> currencyProfilesData.value = State.Failure(throwable) }
+                ))
+    }
+
     fun getExchangeRateData(): LiveData<State> {
         return exchangeRateData
+    }
+
+    fun getCurrencyProfilesData(): LiveData<State> {
+        return currencyProfilesData
     }
 }

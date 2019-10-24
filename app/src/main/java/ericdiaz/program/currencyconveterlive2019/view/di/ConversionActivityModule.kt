@@ -18,15 +18,6 @@ abstract class ConversionActivityModule {
         @Provides
         @JvmStatic
         @ConversionActivityScope
-        fun providesCurrencyAdapter(layoutInflater: LayoutInflater?,
-                                    currencyList: Array<String>,
-                                    imageResTestHolder: Int): CurrencyAdapter {
-            return CurrencyAdapter(layoutInflater, currencyList, imageResTestHolder)
-        }
-
-        @Provides
-        @JvmStatic
-        @ConversionActivityScope
         fun providesLayoutInflater(context: Context): LayoutInflater? {
             return LayoutInflater.from(context)
         }
@@ -36,13 +27,6 @@ abstract class ConversionActivityModule {
         @ConversionActivityScope
         fun providesCurrencyListStringArray(resources: Resources): Array<String> {
             return resources.getStringArray(R.array.currency_list);
-        }
-
-        @Provides
-        @JvmStatic
-        @ConversionActivityScope
-        fun providesCurrencyTestRes(): Int {
-            return R.drawable.ic_check
         }
     }
 }

@@ -1,6 +1,5 @@
-package ericdiaz.program.data.network.di
+package ericdiaz.program.data.network
 
-import ericdiaz.program.data.network.UrlManager
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
