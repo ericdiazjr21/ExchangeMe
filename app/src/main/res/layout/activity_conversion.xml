@@ -7,6 +7,19 @@
     android:background="@color/colorPrimary"
     tools:context=".view.ConversionActivity">
 
+    <TextView
+        android:id="@+id/base_currency_symbol_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/base_currency_amount_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/base_currency_amount_edit_text"
+        app:layout_constraintStart_toStartOf="@id/base_currency_amount_edit_text"
+        android:fontFamily="@font/quicksand_regular"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        tools:text="USD">
+    </TextView>
+
     <EditText
         android:id="@+id/base_currency_amount_edit_text"
         android:layout_width="0dp"
@@ -36,7 +49,6 @@
         android:spinnerMode="dialog"
         android:fontFamily="@font/quicksand_regular"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/base_currency_amount_edit_text"
         app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/base_currency_amount_edit_text" />
@@ -48,10 +60,21 @@
         android:spinnerMode="dialog"
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/quicksand_regular"
-        app:layout_constraintBottom_toBottomOf="@id/foreign_currency_edit_text"
         app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/foreign_currency_edit_text" />
+    <TextView
+        android:id="@+id/foreign_currency_symbol_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/foreign_currency_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/foreign_currency_edit_text"
+        app:layout_constraintStart_toStartOf="@id/foreign_currency_edit_text"
+        android:fontFamily="@font/quicksand_regular"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        tools:text="USD">
+    </TextView>
 
     <EditText
         android:id="@+id/foreign_currency_edit_text"
