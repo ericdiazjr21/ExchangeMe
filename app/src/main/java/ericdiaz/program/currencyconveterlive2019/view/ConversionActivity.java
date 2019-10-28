@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,16 +50,17 @@ public class ConversionActivity extends AppCompatActivity {
           .build()
           .inject(this);
 
-        connectDialPad();
+        initViews();
         loadCurrencyProfiles();
         setConvertButtonListener();
         observeExchangeRateViewModel();
     }
 
-    private void connectDialPad() {
+    private void initViews() {
         DialPad dialPad = findViewById(R.id.dial_pad_view);
-
         dialPad.connectInputTo(activityConversionBinding.baseCurrencyAmountEditText);
+
+        ((EditText) activityConversionBinding.foreignCurrencyEditText).setSingleLine(true);
     }
 
     private void loadCurrencyProfiles() {
@@ -130,7 +132,10 @@ public class ConversionActivity extends AppCompatActivity {
         exchangeRateViewModel.getExchangeRateData().observe(this, state -> {
 
             if (state instanceof State.Success) {
-                activityConversionBinding.foreignCurrencyTextView.setText(((State.Success) state).getConversionValue());
+                ((EditText) activityConversionBinding.foreignCurrencyEditText).getText().clear();
+                ((EditText) activityConversionBinding.foreignCurrencyEditText)
+                  .getText()
+                  .insert(0, (((State.Success) state).getConversionValue()));
             } else if (state instanceof State.Failure) {
                 Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             }

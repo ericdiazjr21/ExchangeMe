@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
+    android:background="@color/colorPrimary"
     android:padding="8dp">
 
     <ImageView
@@ -21,10 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:layout_marginStart="8dp"
-        android:textColor="@color/wave"
+        android:fontFamily="@font/quicksand_regular"
+        android:textColor="@color/white"
         android:textSize="24sp"
         tools:text="This is a test">
-
     </com.google.android.material.textview.MaterialTextView>
 
 </LinearLayout>

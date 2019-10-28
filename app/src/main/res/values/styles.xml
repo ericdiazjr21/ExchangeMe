@@ -1,9 +1,16 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/ocean</item>
-        <item name="colorPrimaryDark">@color/deepAqua</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/deepAqua</item>
+        <item name="colorPrimaryDark">@color/ocean</item>
+        <item name="colorAccent">@color/wave</item>
+    </style>
+    <style name="ButtonTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/transparent_white</item>
+        <item name="colorPrimaryDark">@color/transparent_white</item>
         <item name="colorAccent">@color/wave</item>
     </style>
 
 </resources>
+
+
