@@ -2,7 +2,10 @@ package ericdiaz.program.currencyconveterlive2019.view.dialpad
 
 import android.widget.EditText
 import android.widget.TextView
-import ericdiaz.program.currencyconveterlive2019.extensions.*
+import ericdiaz.program.currencyconveterlive2019.extensions.currencySymbolFormat
+import ericdiaz.program.currencyconveterlive2019.extensions.currencySymbolFormatParser
+import ericdiaz.program.currencyconveterlive2019.extensions.decreaseDecimalValue
+import ericdiaz.program.currencyconveterlive2019.extensions.increaseDecimalValue
 
 class DialPadConductor(private val receiverTextView: TextView,
                        private val formatMode: Int = BASIC_DECIMAL_FORMAT) : OnDialPressedListener {
@@ -16,8 +19,7 @@ class DialPadConductor(private val receiverTextView: TextView,
         receiverTextView.apply {
             this.text =
                     when (formatMode) {
-                        BASIC_DECIMAL_FORMAT -> zeroDecimalFormat()
-                        CURRENCY_SYMBOL_FORMAT -> zeroCurrencySymbolFormat()
+                        BASIC_DECIMAL_FORMAT, CURRENCY_SYMBOL_FORMAT -> zeroDecimalFormat()
                         else -> throw IllegalArgumentException("Invalid format mode input")
                     }
             (this as EditText).setSingleLine(true)
@@ -49,7 +51,10 @@ class DialPadConductor(private val receiverTextView: TextView,
     private fun getNewFormattedDecimalTextAmount(initialDecimalValue: Double,
                                                  dialSymbol: String): String {
         return if (dialSymbol == Dial.Delete.dialSymbol) {
-            initialDecimalValue.decreaseDecimalValue().toString()
+            when (initialDecimalValue) {
+                in 0.0..0.1 -> zeroDecimalFormat()
+                else -> initialDecimalValue.decreaseDecimalValue().toString()
+            }
         } else {
             initialDecimalValue.increaseDecimalValue(dialSymbol).toString()
         }
@@ -65,11 +70,11 @@ class DialPadConductor(private val receiverTextView: TextView,
                         .toInt()
                         .currencySymbolFormat()
             } else {
-                zeroCurrencySymbolFormat()
+                zeroDecimalFormat()
             }
         } else {
             when (unformattedAmountText) {
-                "" -> zeroCurrencySymbolFormat()
+                "" -> zeroDecimalFormat()
 
                 "0" -> unformattedAmountText.replace("0", dialSymbol)
                         .toInt()
@@ -91,7 +96,7 @@ class DialPadConductor(private val receiverTextView: TextView,
         return receiverTextView.text.toString().trim()
     }
 
-    private fun zeroCurrencySymbolFormat() = 0.currencySymbolFormat()
 
-    private fun zeroDecimalFormat() = 0.basicDecimalFormat()
+    private fun zeroDecimalFormat() = "0.00"
+
 }

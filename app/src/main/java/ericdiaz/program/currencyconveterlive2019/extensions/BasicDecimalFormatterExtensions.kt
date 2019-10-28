@@ -7,7 +7,7 @@ private val basicDecimalFormatDecrease = DecimalFormat("#.##").apply { roundingM
 private val basicDecimalFormatIncrease = DecimalFormat("#.##")
 
 fun Int.basicDecimalFormat(): String {
-    return this.toDouble().toString()
+    return basicDecimalFormatDecrease.format(this).toString()
 }
 
 fun Double.decreaseDecimalValue(): Double {
