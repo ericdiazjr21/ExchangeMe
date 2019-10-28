@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,28 +50,30 @@ public class ConversionActivity extends AppCompatActivity {
           .build()
           .inject(this);
 
-        connectDialPad();
+        initViews();
         loadCurrencyProfiles();
         setConvertButtonListener();
         observeExchangeRateViewModel();
     }
 
-    private void connectDialPad() {
+    private void initViews() {
         DialPad dialPad = findViewById(R.id.dial_pad_view);
-
         dialPad.connectInputTo(activityConversionBinding.baseCurrencyAmountEditText);
+
+        ((EditText) activityConversionBinding.foreignCurrencyEditText).setSingleLine(true);
     }
 
     private void loadCurrencyProfiles() {
         exchangeRateViewModel.getCurrencyProfiles();
         exchangeRateViewModel.getCurrencyProfilesData().observe(this, state -> {
-            if (state instanceof State.CurrencyProfileSuccess)
+            if (state instanceof State.CurrencyProfileSuccess) {
                 initCurrencySpinners(((State.CurrencyProfileSuccess) state).getCurrencyProfileMap());
-            else if (state instanceof State.Failure) {
+            } else if (state instanceof State.Failure) {
                 Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             }
         });
     }
+
 
     private void initCurrencySpinners(Map<String, CurrencyProfile> currencyProfileMap) {
         Spinner baseCurrencySpinner = activityConversionBinding.baseCurrencySpinner;
@@ -94,6 +97,13 @@ public class ConversionActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 exchangeRateViewModel.baseCurrency = reversedCurrencyList[position];
+
+                activityConversionBinding.baseCurrencySymbolTextView
+                  .setText(
+                    getCurrencySymbolText(
+                      currencyProfileMap.get(reversedCurrencyList[position]).getCurrencySymbol(),
+                      reversedCurrencyList[position]));
+
             }
 
             @Override
@@ -106,6 +116,11 @@ public class ConversionActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 exchangeRateViewModel.foreignCurrency = currencyList[position];
+                activityConversionBinding.foreignCurrencySymbolTextView
+                  .setText(
+                    getCurrencySymbolText(
+                      currencyProfileMap.get(currencyList[position]).getCurrencySymbol(),
+                      currencyList[position]));
             }
 
             @Override
@@ -113,6 +128,10 @@ public class ConversionActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private String getCurrencySymbolText(String currencySymbol, String currencyAbbreviation) {
+        return currencySymbol + " - " + currencyAbbreviation;
     }
 
     private void setConvertButtonListener() {
@@ -130,7 +149,10 @@ public class ConversionActivity extends AppCompatActivity {
         exchangeRateViewModel.getExchangeRateData().observe(this, state -> {
 
             if (state instanceof State.Success) {
-                activityConversionBinding.foreignCurrencyTextView.setText(((State.Success) state).getConversionValue());
+                ((EditText) activityConversionBinding.foreignCurrencyEditText).getText().clear();
+                ((EditText) activityConversionBinding.foreignCurrencyEditText)
+                  .getText()
+                  .insert(0, (((State.Success) state).getConversionValue()));
             } else if (state instanceof State.Failure) {
                 Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             }

@@ -1,5 +1,6 @@
 package ericdiaz.program.currencyconveterlive2019.view.dialpad
 
+import android.widget.EditText
 import android.widget.TextView
 import ericdiaz.program.currencyconveterlive2019.extensions.*
 
@@ -12,12 +13,15 @@ class DialPadConductor(private val receiverTextView: TextView,
     }
 
     init {
-        receiverTextView.text =
-                when (formatMode) {
-                    BASIC_DECIMAL_FORMAT -> zeroDecimalFormat()
-                    CURRENCY_SYMBOL_FORMAT -> zeroCurrencySymbolFormat()
-                    else -> throw IllegalArgumentException("Invalid format mode input")
-                }
+        receiverTextView.apply {
+            this.text =
+                    when (formatMode) {
+                        BASIC_DECIMAL_FORMAT -> zeroDecimalFormat()
+                        CURRENCY_SYMBOL_FORMAT -> zeroCurrencySymbolFormat()
+                        else -> throw IllegalArgumentException("Invalid format mode input")
+                    }
+            (this as EditText).setSingleLine(true)
+        }
     }
 
     override fun onDialPressed(dial: Dial) {
@@ -28,7 +32,10 @@ class DialPadConductor(private val receiverTextView: TextView,
 
                 BASIC_DECIMAL_FORMAT ->
                     getNewFormattedDecimalTextAmount(this.toDouble(), dial.dialSymbol)
-                            .let { receiverTextView.text = it }
+                            .let {
+                                (receiverTextView as EditText).text.clear()
+                                receiverTextView.text.insert(0, it)
+                            }
 
                 CURRENCY_SYMBOL_FORMAT ->
                     getNewFormattedCurrencyTextAmount(this.currencySymbolFormatParser(), dial.dialSymbol)
