@@ -102,7 +102,7 @@ public class ViewModelTest {
         String date = "2000-10-10";
         String baseCurrency = "USD";
         String foreignCurrency = "EUR";
-        String baseCurrencyAmount = "0.00";
+        String baseCurrencyAmount = "fail";
         Exception expectedException = new IllegalStateException();
         Single<ExchangeRateResponse> expectedError = Single.error(expectedException);
 
