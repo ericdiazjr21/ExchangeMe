@@ -19,38 +19,42 @@ class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeR
     lateinit var baseCurrencyAmount: String
 
     fun getConversionValue(date: String = "latest") {
-        addDisposables(
-                exchangeRateDatabaseRepository
-                        .requestExchangeRates(date, baseCurrency)
+        if (baseCurrencyAmount != "0.00") {
+            addDisposables(
+                    exchangeRateDatabaseRepository
+                            .requestExchangeRates(date, baseCurrency)
 
-                        .delaySubscription(
-                                Completable.fromAction { exchangeRateData.setValue(State.Loading) }
-                        )
+                            .delaySubscription(
+                                    Completable.fromAction { exchangeRateData.setValue(State.Loading) }
+                            )
 
-                        .onErrorResumeNext {
-                            exchangeRateNetworkRepository.requestExchangeRates(date, baseCurrency)
-                                    .doOnSuccess { exchangeRateResponse ->
-                                        exchangeRateResponse?.run {
-                                            exchangeRateDatabaseRepository.insertExchangeRateResponse(exchangeRateResponse)
+                            .onErrorResumeNext {
+                                exchangeRateNetworkRepository.requestExchangeRates(date, baseCurrency)
+                                        .doOnSuccess { exchangeRateResponse ->
+                                            exchangeRateResponse?.run {
+                                                exchangeRateDatabaseRepository.insertExchangeRateResponse(exchangeRateResponse)
+                                            }
                                         }
-                                    }
-                        }
+                            }
 
-                        .map { (_, ratesMap) ->
+                            .map { (_, ratesMap) ->
 
-                            val conversionRate = ratesMap[foreignCurrency]
+                                val conversionRate = ratesMap[foreignCurrency]
 
-                            conversionRate?.getExchangeValue(baseCurrencyAmount)
-                                    ?: "Error, value is null"
-                        }
+                                conversionRate?.getExchangeValue(baseCurrencyAmount)
+                                        ?: "Error, value is null"
+                            }
 
-                        .observeOn(AndroidSchedulers.mainThread())
+                            .observeOn(AndroidSchedulers.mainThread())
 
-                        .subscribeBy(
-                                onSuccess = { response -> exchangeRateData.value = State.Success(response) },
-                                onError = { throwable -> exchangeRateData.value = State.Failure(throwable) }
-                        )
-        )
+                            .subscribeBy(
+                                    onSuccess = { response -> exchangeRateData.value = State.Success(response) },
+                                    onError = { throwable -> exchangeRateData.value = State.Failure(throwable) }
+                            )
+            )
+        } else {
+            exchangeRateData.value = State.Zero
+        }
     }
 
     fun getCurrencyProfiles() {

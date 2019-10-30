@@ -8,4 +8,9 @@
         android:fontStyle="normal"
         android:fontWeight="400"
         android:font="@font/quicksand_bold" />
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/quicksand_italic" />
 </font-family>
