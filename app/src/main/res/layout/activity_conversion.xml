@@ -7,101 +7,95 @@
     android:background="@color/colorPrimary"
     tools:context=".view.ConversionActivity">
 
-    <TextView
-        android:id="@+id/base_currency_symbol_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/base_currency_amount_edit_text"
-        app:layout_constraintEnd_toEndOf="@id/base_currency_amount_edit_text"
-        app:layout_constraintStart_toStartOf="@id/base_currency_amount_edit_text"
-        android:fontFamily="@font/quicksand_regular"
-        android:textSize="24sp"
-        android:textColor="@color/white"
-        tools:text="USD">
-    </TextView>
-
-    <EditText
-        android:id="@+id/base_currency_amount_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/transparent_Primary"
-        android:scrollHorizontally="true"
-        android:inputType="none"
-        android:fontFamily="@font/quicksand_bold"
-        android:textAlignment="textEnd"
-        android:textColor="@color/white"
-        android:textIsSelectable="true"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toTopOf="@id/foreign_currency_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Spinner
         android:id="@+id/base_currency_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="@color/colorPrimaryDark"
-        android:spinnerMode="dialog"
         android:fontFamily="@font/quicksand_regular"
+        android:spinnerMode="dialog"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/base_currency_amount_edit_text" />
+        app:layout_constraintTop_toTopOf="@id/base_currency_amount_text_view" />
 
     <Spinner
         android:id="@+id/foreign_currency_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
         android:background="@color/colorPrimaryDark"
         android:fontFamily="@font/quicksand_regular"
+        android:spinnerMode="dialog"
         app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/foreign_currency_edit_text" />
+        app:layout_constraintTop_toTopOf="@id/foreign_currency_text_view" />
+
+    <TextView
+        android:id="@+id/base_currency_symbol_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/base_currency_amount_text_view"
+        app:layout_constraintEnd_toEndOf="@id/base_currency_amount_text_view"
+        app:layout_constraintStart_toStartOf="@id/base_currency_amount_text_view"
+        tools:text="USD" />
+
+    <TextView
+        android:id="@+id/base_currency_amount_text_view"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:maxLines="1"
+        android:fontFamily="@font/quicksand_regular"
+        android:gravity="center_vertical|end"
+        android:textColor="@color/white"
+        android:textSize="60sp"
+        android:letterSpacing="-.05"
+        app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/foreign_currency_symbol_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/foreign_currency_edit_text"
-        app:layout_constraintEnd_toEndOf="@id/foreign_currency_edit_text"
-        app:layout_constraintStart_toStartOf="@id/foreign_currency_edit_text"
         android:fontFamily="@font/quicksand_regular"
-        android:textSize="24sp"
         android:textColor="@color/white"
-        tools:text="USD">
-    </TextView>
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
+        app:layout_constraintEnd_toEndOf="@id/foreign_currency_text_view"
+        app:layout_constraintStart_toStartOf="@id/foreign_currency_text_view"
+        tools:text="USD" />
 
-    <EditText
-        android:id="@+id/foreign_currency_edit_text"
+    <TextView
+        android:id="@+id/foreign_currency_text_view"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/transparent_Primary"
-        android:fontFamily="@font/quicksand_bold"
-        android:inputType="none"
-        android:scrollHorizontally="true"
-        android:textAlignment="textEnd"
+        android:fontFamily="@font/quicksand_regular"
+        android:gravity="center_vertical|end"
+        android:maxLines="1"
+        android:text="0.00"
+        android:letterSpacing="-.05"
         android:textColor="@color/white"
-        android:textIsSelectable="true"
-        android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@id/center_horizontal_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
-        app:layout_constraintTop_toBottomOf="@id/base_currency_amount_edit_text" />
+        app:layout_constraintTop_toBottomOf="@id/base_currency_amount_text_view" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_regular"
         android:text="To"
         android:textColor="@color/white"
-        android:textSize="28sp"
-        android:fontFamily="@font/quicksand_bold"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/foreign_currency_spinner"
         app:layout_constraintEnd_toEndOf="@id/foreign_currency_spinner"
         app:layout_constraintStart_toStartOf="@id/foreign_currency_spinner" />
@@ -109,10 +103,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_regular"
         android:text="From"
         android:textColor="@color/white"
-        android:textSize="28sp"
-        android:fontFamily="@font/quicksand_bold"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/base_currency_spinner"
         app:layout_constraintEnd_toEndOf="@id/base_currency_spinner"
         app:layout_constraintStart_toStartOf="@id/base_currency_spinner" />
@@ -157,10 +151,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/white"
         android:fontFamily="@font/quicksand_bold"
         android:text="Convert"
+        android:textColor="@color/white"
         android:theme="@style/ButtonTheme"
+        style="@style/TextAppearance.MaterialComponents.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

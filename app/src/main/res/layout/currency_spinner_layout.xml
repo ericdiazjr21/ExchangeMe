@@ -22,10 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:layout_marginStart="8dp"
-        android:fontFamily="@font/quicksand_regular"
+        android:fontFamily="@font/quicksand_bold"
         android:textColor="@color/white"
         android:textSize="24sp"
-        tools:text="This is a test">
-    </com.google.android.material.textview.MaterialTextView>
+        tools:text="This is a test" />
 
 </LinearLayout>

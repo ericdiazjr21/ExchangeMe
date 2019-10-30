@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import com.squareup.picasso.Picasso
 import ericdiaz.program.currencyconveterlive2019.R
 import ericdiaz.program.data.model.CurrencyProfile

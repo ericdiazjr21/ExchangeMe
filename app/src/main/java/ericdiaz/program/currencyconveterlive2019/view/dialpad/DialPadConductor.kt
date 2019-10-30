@@ -1,7 +1,7 @@
 package ericdiaz.program.currencyconveterlive2019.view.dialpad
 
-import android.widget.EditText
 import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import ericdiaz.program.currencyconveterlive2019.extensions.currencySymbolFormat
 import ericdiaz.program.currencyconveterlive2019.extensions.currencySymbolFormatParser
 import ericdiaz.program.currencyconveterlive2019.extensions.decreaseDecimalValue
@@ -22,7 +22,7 @@ class DialPadConductor(private val receiverTextView: TextView,
                         BASIC_DECIMAL_FORMAT, CURRENCY_SYMBOL_FORMAT -> zeroDecimalFormat()
                         else -> throw IllegalArgumentException("Invalid format mode input")
                     }
-            (this as EditText).setSingleLine(true)
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(this, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM)
         }
     }
 
@@ -34,10 +34,7 @@ class DialPadConductor(private val receiverTextView: TextView,
 
                 BASIC_DECIMAL_FORMAT ->
                     getNewFormattedDecimalTextAmount(this.toDouble(), dial.dialSymbol)
-                            .let {
-                                (receiverTextView as EditText).text.clear()
-                                receiverTextView.text.insert(0, it)
-                            }
+                            .let { receiverTextView.text = it }
 
                 CURRENCY_SYMBOL_FORMAT ->
                     getNewFormattedCurrencyTextAmount(this.currencySymbolFormatParser(), dial.dialSymbol)
@@ -95,7 +92,6 @@ class DialPadConductor(private val receiverTextView: TextView,
     private fun getReceiverViewText(): String {
         return receiverTextView.text.toString().trim()
     }
-
 
     private fun zeroDecimalFormat() = "0.00"
 
