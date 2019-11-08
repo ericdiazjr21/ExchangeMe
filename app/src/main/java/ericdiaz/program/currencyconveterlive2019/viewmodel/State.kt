@@ -4,9 +4,10 @@ import ericdiaz.program.data.model.CurrencyProfile
 
 sealed class State {
 
-    data class Success(val conversionValue: String) : State()
-
-    data class CurrencyProfileSuccess(val currencyProfileMap: Map<String, CurrencyProfile>) : State()
+    data class Success(val conversionValue: String = "not available",
+                       val conversionRate: String = "not available",
+                       val lastUpdated: String = "not available",
+                       val currencyProfileMap: Map<String, CurrencyProfile> = emptyMap()) : State()
 
     data class Failure(val throwable: Throwable) : State()
 

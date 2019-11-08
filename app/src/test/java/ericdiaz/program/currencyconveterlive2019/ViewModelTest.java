@@ -6,9 +6,6 @@ import androidx.lifecycle.Observer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Answers;
-import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
 
 import java.util.NoSuchElementException;
 
@@ -22,8 +19,6 @@ import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -66,6 +61,7 @@ public class ViewModelTest {
         String foreignCurrency = "EUR";
         String baseCurrencyAmount = "100.00";
         String expectedConversionValue = "91.44";
+        String expectedConversionText = "Conversion rate emptyBaseCurrency -> " + foreignCurrency + " = 0.9144947417";
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         testSubject.baseCurrency = baseCurrency;
@@ -83,7 +79,7 @@ public class ViewModelTest {
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
-        assertThat(result).isEqualTo(new State.Success(expectedConversionValue));
+        assertThat(result).isEqualTo(new State.Success(expectedConversionValue, expectedConversionText, "emptyDate"));
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Success.class));
@@ -142,6 +138,7 @@ public class ViewModelTest {
         String foreignCurrency = "HUF";
         String baseCurrencyAmount = "100.00";
         String expectedConversionValue = "30684.95";
+        String expectedConversionText = "Conversion rate emptyBaseCurrency -> " + foreignCurrency + " = 306.849565615";
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         testSubject.baseCurrency = baseCurrency;
@@ -158,6 +155,6 @@ public class ViewModelTest {
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
-        assertThat(result).isEqualTo(new State.Success(expectedConversionValue));
+        assertThat(result).isEqualTo(new State.Success(expectedConversionValue, expectedConversionText, "emptyDate"));
     }
 }
