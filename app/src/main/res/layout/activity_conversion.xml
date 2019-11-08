@@ -39,7 +39,7 @@
             android:spinnerMode="dialog"
             app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/foreign_currency_text_view" />
+            app:layout_constraintTop_toTopOf="@id/foreign_currency_amount_text_view" />
 
         <TextView
             android:id="@+id/last_updated_text_view"
@@ -80,7 +80,8 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="60sp"
-            app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
+            android:text="0.00"
+            app:layout_constraintBottom_toTopOf="@id/foreign_currency_amount_text_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
             app:layout_constraintTop_toTopOf="parent" />
@@ -92,13 +93,13 @@
             android:fontFamily="@font/quicksand_bold"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
-            app:layout_constraintEnd_toEndOf="@id/foreign_currency_text_view"
-            app:layout_constraintStart_toStartOf="@id/foreign_currency_text_view"
+            app:layout_constraintBottom_toTopOf="@id/foreign_currency_amount_text_view"
+            app:layout_constraintEnd_toEndOf="@id/foreign_currency_amount_text_view"
+            app:layout_constraintStart_toStartOf="@id/foreign_currency_amount_text_view"
             tools:text="USD" />
 
         <TextView
-            android:id="@+id/foreign_currency_text_view"
+            android:id="@+id/foreign_currency_amount_text_view"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
@@ -150,7 +151,7 @@
             app:layout_constraintBottom_toTopOf="@id/dial_pad_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/foreign_currency_text_view" />
+            app:layout_constraintTop_toBottomOf="@id/foreign_currency_amount_text_view" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dial_pad_container"

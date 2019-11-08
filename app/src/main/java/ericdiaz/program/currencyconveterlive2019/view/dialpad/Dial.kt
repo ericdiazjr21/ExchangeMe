@@ -11,7 +11,7 @@ sealed class Dial(val dialSymbol: String) {
     object Seven : Dial("7")
     object Eight : Dial("8")
     object Nine : Dial("9")
-    object Dot : Dial(".")
+    object Clear : Dial(".")
     object Zero : Dial("0")
     object Delete : Dial("Delete_Symbol")
 

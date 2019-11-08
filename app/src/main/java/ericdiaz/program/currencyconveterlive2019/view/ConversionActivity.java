@@ -58,13 +58,28 @@ public class ConversionActivity extends AppCompatActivity {
 
     private void initViews() {
         DialPad dialPad = findViewById(R.id.dial_pad_view);
-        dialPad.connectInputTo(activityConversionBinding.baseCurrencyAmountTextView);
+
+        dialPad.observe(activityConversionBinding.baseCurrencyAmountTextView, value -> {
+            Log.d("Sasuke", value);
+            if (value.equals("clear")) {
+                clearAllViews();
+            } else {
+                activityConversionBinding.baseCurrencyAmountTextView.setText(value);
+            }
+        });
 
         TextViewCompat
           .setAutoSizeTextTypeWithDefaults(
-            activityConversionBinding.foreignCurrencyTextView,
+            activityConversionBinding.foreignCurrencyAmountTextView,
             TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+
+        TextViewCompat
+          .setAutoSizeTextTypeWithDefaults(
+            activityConversionBinding.baseCurrencyAmountTextView,
+            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
+          );
     }
+
 
     private void loadCurrencyProfiles() {
         exchangeRateViewModel.getCurrencyProfiles();
@@ -151,7 +166,7 @@ public class ConversionActivity extends AppCompatActivity {
         exchangeRateViewModel.getExchangeRateData().observe(this, state -> {
 
             if (state instanceof State.Success) {
-                activityConversionBinding.foreignCurrencyTextView
+                activityConversionBinding.foreignCurrencyAmountTextView
                   .setText(((State.Success) state).getConversionValue());
 
                 activityConversionBinding.conversionRateTextView
@@ -165,5 +180,12 @@ public class ConversionActivity extends AppCompatActivity {
                 ExtensionsKt.vibrate(this);
             }
         });
+    }
+
+    private void clearAllViews() {
+        activityConversionBinding.baseCurrencyAmountTextView.setText("0.00");
+        activityConversionBinding.foreignCurrencyAmountTextView.setText("0.00");
+        activityConversionBinding.conversionRateTextView.setText("");
+        activityConversionBinding.lastUpdatedTextView.setText("");
     }
 }

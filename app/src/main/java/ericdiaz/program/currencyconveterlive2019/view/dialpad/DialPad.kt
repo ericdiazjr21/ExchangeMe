@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.number_dial_pad.view.*
 class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
     private lateinit var onDialPressedListener: OnDialPressedListener
+
     private val dialPadConductorMap = mutableMapOf<DialPad, DialPadConductor>()
 
     override fun onFinishInflate() {
@@ -24,16 +25,18 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
         number_7_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Seven) }
         number_8_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Eight) }
         number_9_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Nine) }
-        dot_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Dot) }
+        clear_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Clear) }
         zero_text_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Zero) }
         delete_image_view.setOnClickListener { onDialPressedListener.onDialPressed(Dial.Delete) }
     }
 
-    fun connectInputTo(receiverTextView: TextView) {
+    fun observe(connectedView: TextView, dialResponseListener: DialResponseListener) {
 
         if (!dialPadConductorMap.containsKey(this@DialPad)) {
 
-            DialPadConductor(receiverTextView).let {
+            DialPadConductor(
+                    connectedView,
+                    dialResponseListener).let {
 
                 onDialPressedListener = it
 
@@ -41,10 +44,14 @@ class DialPad(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
             }
         } else {
             Log.i("DialPad",
-                    "DialPad ${resources.getResourceEntryName(this.id)} " +
-                            "already observing ${resources.getResourceEntryName(receiverTextView.id)}")
+                    "DialPad ${resources.getResourceEntryName(this.id)} already observing " +
+                            resources.getResourceEntryName(connectedView.id))
         }
     }
+}
+
+interface DialResponseListener {
+    fun onChange(value: String)
 }
 
 interface OnDialPressedListener {
