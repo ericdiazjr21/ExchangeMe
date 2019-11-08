@@ -148,7 +148,7 @@
             android:textAlignment="gravity"
             android:textColor="@color/white"
             android:textSize="40sp"
-            app:layout_constraintBottom_toTopOf="@id/dot_text_view"
+            app:layout_constraintBottom_toTopOf="@id/clear_text_view"
             app:layout_constraintEnd_toStartOf="@id/number_8_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/number_4_text_view" />
@@ -190,7 +190,7 @@
             app:layout_constraintTop_toBottomOf="@id/number_6_text_view" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/dot_text_view"
+            android:id="@+id/clear_text_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:foreground="?attr/selectableItemBackground"
@@ -198,7 +198,7 @@
             android:layout_margin="1dp"
             android:fontFamily="@font/quicksand_regular"
             android:gravity="center_horizontal|center_vertical"
-            android:text="x"
+            android:text="C"
             android:textAlignment="gravity"
             android:textColor="@color/white"
             android:textSize="40sp"
@@ -222,7 +222,7 @@
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/delete_image_view"
-            app:layout_constraintStart_toEndOf="@id/dot_text_view"
+            app:layout_constraintStart_toEndOf="@id/clear_text_view"
             app:layout_constraintTop_toBottomOf="@id/number_8_text_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ericdiaz.program.currencyconveterlive2019.view.dialpad.DialPad>
