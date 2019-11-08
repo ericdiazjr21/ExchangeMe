@@ -141,7 +141,7 @@ public class ViewModelTest {
         String foreignCurrency = "HUF";
         String baseCurrencyAmount = "100.00";
         String expectedConversionValue = "30684.95";
-        String expectedConversionText = Companion.formatConversionRate(baseCurrency,306.849565615,foreignCurrency);
+        String expectedConversionText = Companion.formatConversionRate(ExchangeRateResponse.Companion.getEMPTY().getBaseCurrency(),306.849565615,foreignCurrency);
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         testSubject.baseCurrency = baseCurrency;
