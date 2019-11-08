@@ -2,11 +2,13 @@ package ericdiaz.program.currencyconveterlive2019;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.NoSuchElementException;
 
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
@@ -19,6 +21,7 @@ import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.google.common.truth.Truth.assertThat;
+import static ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel.Companion;
 import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -61,7 +64,7 @@ public class ViewModelTest {
         String foreignCurrency = "EUR";
         String baseCurrencyAmount = "100.00";
         String expectedConversionValue = "91.44";
-        String expectedConversionText = "Conversion rate emptyBaseCurrency -> " + foreignCurrency + " = 0.9144947417";
+        String expectedConversionText = Companion.formatConversionRate(ExchangeRateResponse.Companion.getEMPTY().getBaseCurrency(),0.9144947417,foreignCurrency);
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         testSubject.baseCurrency = baseCurrency;
@@ -79,7 +82,7 @@ public class ViewModelTest {
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
-        assertThat(result).isEqualTo(new State.Success(expectedConversionValue, expectedConversionText, "emptyDate"));
+        assertThat(result).isEqualTo(new State.Success(expectedConversionValue, expectedConversionText, Companion.formatLastUpdated("emptyDate"), Collections.emptyMap()));
 
         verify(mockObserver).onChanged(isA(State.Loading.class));
         verify(mockObserver).onChanged(isA(State.Success.class));
@@ -138,7 +141,7 @@ public class ViewModelTest {
         String foreignCurrency = "HUF";
         String baseCurrencyAmount = "100.00";
         String expectedConversionValue = "30684.95";
-        String expectedConversionText = "Conversion rate emptyBaseCurrency -> " + foreignCurrency + " = 306.849565615";
+        String expectedConversionText = Companion.formatConversionRate(baseCurrency,306.849565615,foreignCurrency);
         Single<ExchangeRateResponse> expectedResponse = Single.just(ExchangeRateResponse.Companion.getEMPTY());
 
         testSubject.baseCurrency = baseCurrency;
@@ -155,6 +158,6 @@ public class ViewModelTest {
 
         //then
         State result = testSubject.getExchangeRateData().getValue();
-        assertThat(result).isEqualTo(new State.Success(expectedConversionValue, expectedConversionText, "emptyDate"));
+        assertThat(result).isEqualTo(new State.Success(expectedConversionValue, expectedConversionText, Companion.formatLastUpdated("emptyDate"), Collections.emptyMap()));
     }
 }

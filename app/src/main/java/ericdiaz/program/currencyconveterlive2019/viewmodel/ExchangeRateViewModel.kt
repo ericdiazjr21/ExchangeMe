@@ -19,6 +19,16 @@ class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeR
     lateinit var foreignCurrency: String
     lateinit var baseCurrencyAmount: String
 
+    companion object {
+        fun formatConversionRate(baseCurrency: String, conversionRate: Double?, foreignCurrency: String): String {
+            return "(1) $baseCurrency = ($conversionRate) $foreignCurrency"
+        }
+
+        fun formatLastUpdated(date: String): String {
+            return "Rates as of : $date"
+        }
+    }
+
     fun getConversionValue(date: String = "latest") {
         if (baseCurrencyAmount != "0.00") {
             addDisposables(
@@ -47,8 +57,8 @@ class ExchangeRateViewModel(private val exchangeRateNetworkRepository: ExchangeR
 
                                 State.Success(
                                         conversionValue,
-                                        " (1) $baseCurrency = ($conversionRate) $foreignCurrency",
-                                        "Rates as of : $date")
+                                        formatConversionRate(baseCurrency, conversionRate, foreignCurrency),
+                                        formatLastUpdated(date))
                             }
 
                             .observeOn(AndroidSchedulers.mainThread())

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
@@ -20,8 +19,7 @@ import javax.inject.Inject;
 import ericdiaz.program.currencyconveterlive2019.R;
 import ericdiaz.program.currencyconveterlive2019.databinding.ActivityConversionBinding;
 import ericdiaz.program.currencyconveterlive2019.di.DaggerConversionActivityComponent;
-import ericdiaz.program.currencyconveterlive2019.extensions.StringArrayExtensionsKt;
-import ericdiaz.program.currencyconveterlive2019.extensions.SystemServiceExtensionsKt;
+import ericdiaz.program.currencyconveterlive2019.extensions.ExtensionsKt;
 import ericdiaz.program.currencyconveterlive2019.view.adapter.CurrencyAdapter;
 import ericdiaz.program.currencyconveterlive2019.view.dialpad.DialPad;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
@@ -84,7 +82,7 @@ public class ConversionActivity extends AppCompatActivity {
         Spinner baseCurrencySpinner = activityConversionBinding.baseCurrencySpinner;
         Spinner foreignCurrencySpinner = activityConversionBinding.foreignCurrencySpinner;
 
-        String[] reversedCurrencyList = StringArrayExtensionsKt.reverse(currencyList);
+        String[] reversedCurrencyList = ExtensionsKt.reverse(currencyList);
         CurrencyAdapter baseCurrencyAdapter = new CurrencyAdapter(
           getLayoutInflater(),
           reversedCurrencyList,
@@ -164,7 +162,7 @@ public class ConversionActivity extends AppCompatActivity {
             } else if (state instanceof State.Failure) {
                 Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             } else if (state instanceof State.Zero) {
-                SystemServiceExtensionsKt.vibrate(this);
+                ExtensionsKt.vibrate(this);
             }
         });
     }
