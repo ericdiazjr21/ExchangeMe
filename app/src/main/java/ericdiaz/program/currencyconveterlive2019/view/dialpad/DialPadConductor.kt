@@ -53,7 +53,8 @@ class DialPadConductor(private val receiverTextView: TextView,
                 else -> initialDecimalValue.decreaseDecimalValue().toString()
             }
         } else {
-            initialDecimalValue.increaseDecimalValue(dialSymbol).toString()
+            if (initialDecimalValue == 0.0 && dialSymbol == Dial.Zero.dialSymbol) zeroDecimalFormat()
+            else initialDecimalValue.increaseDecimalValue(dialSymbol).toString()
         }
     }
 
