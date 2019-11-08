@@ -1,163 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".view.ConversionActivity">
 
-    <Spinner
-        android:id="@+id/base_currency_spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:fontFamily="@font/quicksand_regular"
-        android:spinnerMode="dialog"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/base_currency_amount_text_view" />
-
-    <Spinner
-        android:id="@+id/foreign_currency_spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:fontFamily="@font/quicksand_regular"
-        android:spinnerMode="dialog"
-        app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/foreign_currency_text_view" />
-
-    <TextView
-        android:id="@+id/base_currency_symbol_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/base_currency_amount_text_view"
-        app:layout_constraintEnd_toEndOf="@id/base_currency_amount_text_view"
-        app:layout_constraintStart_toStartOf="@id/base_currency_amount_text_view"
-        tools:text="USD" />
-
-    <TextView
-        android:id="@+id/base_currency_amount_text_view"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:maxLines="1"
-        android:fontFamily="@font/quicksand_regular"
-        android:gravity="center_vertical|end"
-        android:textColor="@color/white"
-        android:textSize="60sp"
-        android:letterSpacing="-.05"
-        app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/foreign_currency_symbol_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_regular"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
-        app:layout_constraintEnd_toEndOf="@id/foreign_currency_text_view"
-        app:layout_constraintStart_toStartOf="@id/foreign_currency_text_view"
-        tools:text="USD" />
-
-    <TextView
-        android:id="@+id/foreign_currency_text_view"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/quicksand_regular"
-        android:gravity="center_vertical|end"
-        android:maxLines="1"
-        android:text="0.00"
-        android:letterSpacing="-.05"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/center_horizontal_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
-        app:layout_constraintTop_toBottomOf="@id/base_currency_amount_text_view" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_regular"
-        android:text="To"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/foreign_currency_spinner"
-        app:layout_constraintEnd_toEndOf="@id/foreign_currency_spinner"
-        app:layout_constraintStart_toStartOf="@id/foreign_currency_spinner" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_regular"
-        android:text="From"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/base_currency_spinner"
-        app:layout_constraintEnd_toEndOf="@id/base_currency_spinner"
-        app:layout_constraintStart_toStartOf="@id/base_currency_spinner" />
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="success"
+            type="ericdiaz.program.currencyconveterlive2019.viewmodel.State.Success" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/dial_pad_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginEnd="7dp"
-        app:layout_constraintBottom_toTopOf="@id/convert_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/center_horizontal_guideline">
+        android:id="@+id/activity_conversion_layout"
+        android:tag="sometag"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".view.ConversionActivity">
 
-        <include
-            layout="@layout/number_dial_pad"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <Spinner
+            android:id="@+id/base_currency_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/quicksand_regular"
+            android:spinnerMode="dialog"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/base_currency_amount_text_view" />
+
+        <Spinner
+            android:id="@+id/foreign_currency_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/quicksand_regular"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toStartOf="@id/center_vertical_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/foreign_currency_text_view" />
+
+        <TextView
+            android:id="@+id/last_updated_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_italic"
+            android:text="@{success.lastUpdated}"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/base_currency_symbol_text_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/base_currency_symbol_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/base_currency_amount_text_view"
+            app:layout_constraintEnd_toEndOf="@id/base_currency_amount_text_view"
+            app:layout_constraintStart_toStartOf="@id/base_currency_amount_text_view"
+            tools:text="USD" />
+
+        <TextView
+            android:id="@+id/base_currency_amount_text_view"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:gravity="center_vertical|end"
+            android:letterSpacing="-.05"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/foreign_currency_symbol_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/foreign_currency_text_view"
+            app:layout_constraintEnd_toEndOf="@id/foreign_currency_text_view"
+            app:layout_constraintStart_toStartOf="@id/foreign_currency_text_view"
+            tools:text="USD" />
+
+        <TextView
+            android:id="@+id/foreign_currency_text_view"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:gravity="center_vertical|end"
+            android:letterSpacing="-.05"
+            android:maxLines="1"
+            android:text='@{success == null ? "0.00" : success.conversionRate}'
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/center_horizontal_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/center_vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/base_currency_amount_text_view" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="To"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/foreign_currency_spinner"
+            app:layout_constraintEnd_toEndOf="@id/foreign_currency_spinner"
+            app:layout_constraintStart_toStartOf="@id/foreign_currency_spinner" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="From"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/base_currency_spinner"
+            app:layout_constraintEnd_toEndOf="@id/base_currency_spinner"
+            app:layout_constraintStart_toStartOf="@id/base_currency_spinner" />
+
+        <TextView
+            android:id="@+id/conversion_rate_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_italic"
+            android:text="@{success.conversionRate}"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/dial_pad_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foreign_currency_text_view" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dial_pad_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            app:layout_constraintBottom_toTopOf="@id/convert_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/center_horizontal_guideline">
+
+            <include
+                layout="@layout/number_dial_pad"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_horizontal_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_vertical_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".50" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/convert_button"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Convert"
+            android:textColor="@color/white"
+            android:theme="@style/ButtonTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/center_horizontal_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".40" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/center_vertical_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".50" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/convert_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="Convert"
-        android:textColor="@color/white"
-        android:theme="@style/ButtonTheme"
-        style="@style/TextAppearance.MaterialComponents.Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

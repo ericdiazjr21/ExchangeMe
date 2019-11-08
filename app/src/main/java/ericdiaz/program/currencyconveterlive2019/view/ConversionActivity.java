@@ -5,10 +5,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
+import androidx.databinding.DataBindingUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,8 +19,7 @@ import javax.inject.Inject;
 import ericdiaz.program.currencyconveterlive2019.R;
 import ericdiaz.program.currencyconveterlive2019.databinding.ActivityConversionBinding;
 import ericdiaz.program.currencyconveterlive2019.di.DaggerConversionActivityComponent;
-import ericdiaz.program.currencyconveterlive2019.extensions.StringArrayExtensionsKt;
-import ericdiaz.program.currencyconveterlive2019.extensions.SystemServiceExtensionsKt;
+import ericdiaz.program.currencyconveterlive2019.extensions.ExtensionsKt;
 import ericdiaz.program.currencyconveterlive2019.view.adapter.CurrencyAdapter;
 import ericdiaz.program.currencyconveterlive2019.view.dialpad.DialPad;
 import ericdiaz.program.currencyconveterlive2019.viewmodel.ExchangeRateViewModel;
@@ -42,8 +41,7 @@ public class ConversionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityConversionBinding = ActivityConversionBinding.inflate(getLayoutInflater());
-        setContentView(activityConversionBinding.getRoot());
+        activityConversionBinding = DataBindingUtil.setContentView(this, R.layout.activity_conversion);
 
         DaggerConversionActivityComponent
           .builder()
@@ -60,7 +58,7 @@ public class ConversionActivity extends AppCompatActivity {
 
     private void initViews() {
         DialPad dialPad = findViewById(R.id.dial_pad_view);
-        dialPad.connectInputTo((TextView) activityConversionBinding.baseCurrencyAmountTextView);
+        dialPad.connectInputTo(activityConversionBinding.baseCurrencyAmountTextView);
 
         TextViewCompat
           .setAutoSizeTextTypeWithDefaults(
@@ -71,8 +69,8 @@ public class ConversionActivity extends AppCompatActivity {
     private void loadCurrencyProfiles() {
         exchangeRateViewModel.getCurrencyProfiles();
         exchangeRateViewModel.getCurrencyProfilesData().observe(this, state -> {
-            if (state instanceof State.CurrencyProfileSuccess) {
-                initCurrencySpinners(((State.CurrencyProfileSuccess) state).getCurrencyProfileMap());
+            if (state instanceof State.Success && !((State.Success) state).getCurrencyProfileMap().isEmpty()) {
+                initCurrencySpinners(((State.Success) state).getCurrencyProfileMap());
             } else if (state instanceof State.Failure) {
                 Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             }
@@ -84,7 +82,7 @@ public class ConversionActivity extends AppCompatActivity {
         Spinner baseCurrencySpinner = activityConversionBinding.baseCurrencySpinner;
         Spinner foreignCurrencySpinner = activityConversionBinding.foreignCurrencySpinner;
 
-        String[] reversedCurrencyList = StringArrayExtensionsKt.reverse(currencyList);
+        String[] reversedCurrencyList = ExtensionsKt.reverse(currencyList);
         CurrencyAdapter baseCurrencyAdapter = new CurrencyAdapter(
           getLayoutInflater(),
           reversedCurrencyList,
@@ -108,7 +106,6 @@ public class ConversionActivity extends AppCompatActivity {
                     getCurrencySymbolText(
                       currencyProfileMap.get(reversedCurrencyList[position]).getCurrencySymbol(),
                       reversedCurrencyList[position]));
-
             }
 
             @Override
@@ -143,7 +140,7 @@ public class ConversionActivity extends AppCompatActivity {
         activityConversionBinding.convertButton.setOnClickListener(v -> {
 
             exchangeRateViewModel.baseCurrencyAmount =
-              ((TextView) activityConversionBinding.baseCurrencyAmountTextView).getText().toString();
+              activityConversionBinding.baseCurrencyAmountTextView.getText().toString();
 
             exchangeRateViewModel.getConversionValue(
               new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime()));
@@ -156,10 +153,16 @@ public class ConversionActivity extends AppCompatActivity {
             if (state instanceof State.Success) {
                 activityConversionBinding.foreignCurrencyTextView
                   .setText(((State.Success) state).getConversionValue());
+
+                activityConversionBinding.conversionRateTextView
+                  .setText(((State.Success) state).getConversionRate());
+
+                activityConversionBinding.lastUpdatedTextView
+                  .setText(((State.Success) state).getLastUpdated());
             } else if (state instanceof State.Failure) {
                 Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             } else if (state instanceof State.Zero) {
-                SystemServiceExtensionsKt.vibrate(this);
+                ExtensionsKt.vibrate(this);
             }
         });
     }
