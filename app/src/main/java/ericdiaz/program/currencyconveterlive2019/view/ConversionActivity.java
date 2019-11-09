@@ -60,6 +60,7 @@ public class ConversionActivity extends AppCompatActivity {
         DialPad dialPad = findViewById(R.id.dial_pad_view);
 
         dialPad.observe(activityConversionBinding.baseCurrencyAmountTextView, value -> {
+            ExtensionsKt.vibrate(this, ExtensionsKt.VIBRATE_SHORT);
             Log.d("Sasuke", value);
             if (value.equals("clear")) {
                 clearAllViews();
@@ -177,7 +178,7 @@ public class ConversionActivity extends AppCompatActivity {
             } else if (state instanceof State.Failure) {
                 Log.d(TAG, "onChanged: " + ((State.Failure) state).getThrowable().getLocalizedMessage());
             } else if (state instanceof State.Zero) {
-                ExtensionsKt.vibrate(this);
+                ExtensionsKt.vibrate(this, ExtensionsKt.VIBRATE_LONG);
             }
         });
     }

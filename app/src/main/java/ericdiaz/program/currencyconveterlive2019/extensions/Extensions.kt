@@ -8,13 +8,18 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
+const val VIBRATE_SHORT = 1
+const val VIBRATE_LONG = 2
+
 // Context
-fun Context.vibrate() {
+fun Context.vibrate(vibrationLength: Int) {
+    val length = if (vibrationLength == 1) 25L else 500L
+
     val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        vibrator.vibrate(VibrationEffect.createOneShot(length, VibrationEffect.DEFAULT_AMPLITUDE))
     } else {
-        vibrator.vibrate(500)
+        vibrator.vibrate(length)
     }
 }
 
