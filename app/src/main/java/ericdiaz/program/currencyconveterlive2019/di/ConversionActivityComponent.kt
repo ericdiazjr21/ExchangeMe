@@ -18,12 +18,3 @@ import ericdiaz.program.data.di.CurrencyConverterApplication
 interface ConversionActivityComponent {
     fun inject(conversionActivity: ConversionActivity)
 }
-
-fun ConversionActivity.inject(){
-    DaggerConversionActivityComponent
-            .builder()
-            .viewModelModule(ViewModelModule(this))
-            .appComponent((application as CurrencyConverterApplication).appComponent)
-            .build()
-            .inject(this)
-}
